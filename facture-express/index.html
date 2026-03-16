@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Facture Express">
+  <title>Facture Express</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 40%, #6366f1 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 16px 40px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(6,182,212,0.3);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #0284c7, #0891b2 60%, #6366f1);
+      padding: 24px 20px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      right: -20px; top: -20px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .logo {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .app-title { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+    .app-sub { font-size: 12px; color: rgba(255,255,255,0.65); margin-left: 46px; }
+
+    .body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #0891b2;
+      text-transform: uppercase;
+    }
+
+    .field-wrap { display: flex; flex-direction: column; gap: 5px; }
+
+    .field-label { font-size: 12px; font-weight: 600; color: #64748b; }
+
+    .field-input, .field-select {
+      width: 100%;
+      padding: 10px 13px;
+      font-size: 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: inherit;
+    }
+
+    .field-input:focus, .field-select:focus {
+      outline: none;
+      border-color: #0891b2;
+      background: #fff;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, #e0f2fe, #c7d2fe, #e0f2fe);
+    }
+
+    .prestation-card {
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .prestation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prestation-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-remove {
+      font-size: 11px;
+      color: #f43f5e;
+      background: #fff0f3;
+      border: 1px solid #fecdd3;
+      border-radius: 6px;
+      padding: 3px 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .preview-pill {
+      background: linear-gradient(135deg, #e0f2fe, #ede9fe);
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-size: 12px;
+      color: #0369a1;
+      line-height: 1.5;
+      min-height: 36px;
+    }
+
+    .preview-pill.empty { color: #94a3b8; font-style: italic; }
+
+    .prix-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prix-label { font-size: 12px; color: #64748b; white-space: nowrap; }
+
+    .prix-input {
+      flex: 1;
+      padding: 8px 11px;
+      font-size: 14px;
+      border: 1.5px solid #bae6fd;
+      border-radius: 8px;
+      background: #fff;
+      color: #1e293b;
+      font-family: inherit;
+      text-align: right;
+    }
+
+    .prix-input:focus { outline: none; border-color: #0891b2; }
+
+    .btn-add {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1.5px dashed #7dd3fc;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0284c7;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .total-card {
+      background: linear-gradient(135deg, #0284c7, #0891b2 60%, #6366f1);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total-label { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500; }
+    .total-amount { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+
+    .btn-cta {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #0ea5e9, #0891b2 50%, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 16px rgba(8,145,178,0.35);
+    }
+
+    .btn-cta:active { opacity: 0.88; }
+
+    /* Écran de succès */
+    #successScreen {
+      display: none;
+      padding: 40px 24px;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      background: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 100%);
+      min-height: 400px;
+      justify-content: center;
+    }
+
+    .success-circle {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; color: white;
+    }
+
+    .success-title { font-size: 22px; font-weight: 700; color: #0284c7; }
+    .success-num { font-size: 14px; color: #6366f1; font-weight: 600; }
+    .success-sub { font-size: 13px; color: #64748b; line-height: 1.6; }
+
+    #loadingMsg {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      color: #0891b2;
+      font-weight: 500;
+    }
+
+    #errorMsg {
+      display: none;
+      background: #fff0f3;
+      border: 1px solid #fecdd3;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #f43f5e;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">⚡</div>
+      <div class="app-title">Facture Express</div>
+    </div>
+    <div class="app-sub">Nouvelle facture • @naia_la_star</div>
+  </div>
+
+  <!-- Formulaire principal -->
+  <div class="body" id="mainForm">
+
+    <div class="section-label">Client</div>
+
+    <div class="field-wrap">
+      <div class="field-label">Nom du client / marque</div>
+      <input class="field-input" type="text" id="client" placeholder="ex: Nike France">
+    </div>
+
+    <div class="field-wrap">
+      <div class="field-label">Date de facturation</div>
+      <input class="field-input" type="date" id="dateFacture">
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label">Prestations</div>
+
+    <div id="prestationsContainer" style="display:flex;flex-direction:column;gap:12px;"></div>
+
+    <button class="btn-add" onclick="addPrestation()">+ Ajouter une prestation</button>
+
+    <div class="divider"></div>
+
+    <div class="total-card">
+      <span class="total-label">Total HT</span>
+      <span class="total-amount" id="totalDisplay">0,00 €</span>
+    </div>
+
+    <div id="errorMsg"></div>
+    <div id="loadingMsg">⏳ Création en cours...</div>
+
+    <button class="btn-cta" onclick="submitFacture()">⚡ Créer la facture</button>
+
+  </div>
+
+  <!-- Écran succès -->
+  <div id="successScreen">
+    <div class="success-circle">✓</div>
+    <div class="success-title">Facture créée !</div>
+    <div class="success-num" id="successNum"></div>
+    <div class="success-sub">PDF généré et archivé dans Drive.<br>Le modèle est prêt pour la prochaine.</div>
+    <button class="btn-cta" style="margin-top:12px" onclick="resetForm()">+ Nouvelle facture</button>
+  </div>
+
+</div>
+
+<script>
+
+  // ============================================================
+  // ⬇️  COLLE TON URL APPS SCRIPT ICI (entre les guillemets)
+  // ============================================================
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzXcPVWIDNaTq3xgT3wRmdiIztLKfLb881RpkTwDwwiqczQXAICVf76YOnOeTZPVKvk/exec";
+  // ============================================================
+
+  const TIKTOK = "@naia_la_star";
+
+  const TEMPLATES = [
+    {
+      id: "musique",
+      label: "Utilisation d'une chanson",
+      fields: [
+        { key: "titre",   label: "Titre de la chanson", placeholder: "ex: Flowers" },
+        { key: "artiste", label: "Artiste",              placeholder: "ex: Miley Cyrus" },
+        { key: "datePub", label: "Date de publication",  type: "date" }
+      ],
+      build: v => `Utilisation de la chanson "${v.titre}" de ${v.artiste} pour une vidéo TikTok publiée le ${v.datePub} sur le compte ${TIKTOK}`
+    },
+    {
+      id: "marque",
+      label: "Vidéo sponsorisée marque",
+      fields: [
+        { key: "marque",  label: "Nom de la marque",    placeholder: "ex: Nike" },
+        { key: "datePub", label: "Date de publication", type: "date" }
+      ],
+      build: v => `Création et publication d'une vidéo TikTok sponsorisée pour la marque ${v.marque}, publiée le ${v.datePub} sur le compte ${TIKTOK}`
+    },
+    {
+      id: "libre",
+      label: "Prestation libre",
+      fields: [
+        { key: "desc", label: "Description", placeholder: "Décris la prestation..." }
+      ],
+      build: v => v.desc
+    }
+  ];
+
+  let prestations = [];
+  let counter = 0;
+
+  function addPrestation() {
+    prestations.push({ id: ++counter, tplId: "musique", vals: {}, prix: "" });
+    render();
+  }
+
+  function removePrestation(id) {
+    prestations = prestations.filter(p => p.id !== id);
+    render();
+  }
+
+  function render() {
+    const c = document.getElementById("prestationsContainer");
+    c.innerHTML = "";
+    prestations.forEach((p, idx) => {
+      const tpl = TEMPLATES.find(t => t.id === p.tplId);
+      const div = document.createElement("div");
+      div.className = "prestation-card";
+
+      const selectOpts = TEMPLATES.map(t =>
+        `<option value="${t.id}" ${t.id === p.tplId ? "selected" : ""}>${t.label}</option>`
+      ).join("");
+
+      const fieldsHtml = tpl.fields.map(f => {
+        const v = p.vals[f.key] || "";
+        if (f.type === "date") {
+          return `<div class="field-wrap">
+            <div class="field-label">${f.label}</div>
+            <input class="field-input" type="date" value="${v}"
+              oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})">
+          </div>`;
+        }
+        return `<div class="field-wrap">
+          <div class="field-label">${f.label}</div>
+          <input class="field-input" type="text" placeholder="${f.placeholder}" value="${v}"
+            oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})">
+        </div>`;
+      }).join("");
+
+      const preview = getPreview(p);
+
+      div.innerHTML = `
+        <div class="prestation-header">
+          <span class="prestation-num">Prestation ${idx + 1}</span>
+          <button class="btn-remove" onclick="removePrestation(${p.id})">Retirer</button>
+        </div>
+        <select class="field-select" onchange="changeTpl(${p.id},this.value)">${selectOpts}</select>
+        ${fieldsHtml}
+        <div class="preview-pill ${preview ? '' : 'empty'}" id="prev-${p.id}">
+          ${preview || "Aperçu automatique..."}
+        </div>
+        <div class="prix-row">
+          <span class="prix-label">Prix HT</span>
+          <input class="prix-input" type="number" min="0" step="0.01" placeholder="0,00"
+            value="${p.prix}" oninput="setPrix(${p.id},this.value)">
+          <span class="prix-label">€</span>
+        </div>`;
+      c.appendChild(div);
+    });
+    updateTotal();
+  }
+
+  function setVal(id, key, val) {
+    const p = prestations.find(p => p.id === id);
+    if (p) p.vals[key] = val;
+  }
+
+  function setPrix(id, val) {
+    const p = prestations.find(p => p.id === id);
+    if (p) p.prix = val;
+    updateTotal();
+  }
+
+  function changeTpl(id, tplId) {
+    const p = prestations.find(p => p.id === id);
+    if (p) { p.tplId = tplId; p.vals = {}; }
+    render();
+  }
+
+  function refreshPreview(id) {
+    const p = prestations.find(p => p.id === id);
+    const el = document.getElementById("prev-" + id);
+    if (!p || !el) return;
+    const txt = getPreview(p);
+    el.textContent = txt || "Aperçu automatique...";
+    el.className = "preview-pill" + (txt ? "" : " empty");
+  }
+
+  function getPreview(p) {
+    const tpl = TEMPLATES.find(t => t.id === p.tplId);
+    if (!tpl) return "";
+    if (!tpl.fields.every(f => p.vals[f.key])) return "";
+    return tpl.build(p.vals);
+  }
+
+  function updateTotal() {
+    const total = prestations.reduce((s, p) => s + (parseFloat(p.prix) || 0), 0);
+    document.getElementById("totalDisplay").textContent =
+      total.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  }
+
+  function showError(msg) {
+    const el = document.getElementById("errorMsg");
+    el.textContent = msg;
+    el.style.display = "block";
+    setTimeout(() => { el.style.display = "none"; }, 4000);
+  }
+
+  function submitFacture() {
+    const client = document.getElementById("client").value.trim();
+    if (!client) { showError("Renseigne le nom du client."); return; }
+    if (!prestations.length) { showError("Ajoute au moins une prestation."); return; }
+    if (prestations.some(p => !getPreview(p))) { showError("Une prestation est incomplète."); return; }
+    if (WEBAPP_URL === "https://script.google.com/macros/s/AKfycbzXcPVWIDNaTq3xgT3wRmdiIztLKfLb881RpkTwDwwiqczQXAICVf76YOnOeTZPVKvk/exec") { showError("URL du script non configurée."); return; }
+
+    document.getElementById("loadingMsg").style.display = "block";
+    document.querySelector(".btn-cta").disabled = true;
+
+    const payload = {
+      client,
+      dateFacture: document.getElementById("dateFacture").value,
+      prestations: prestations.map(p => ({
+        description: getPreview(p),
+        prix: parseFloat(p.prix) || 0
+      }))
+    };
+
+    fetch(WEBAPP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById("loadingMsg").style.display = "none";
+      if (data.success) {
+        document.getElementById("successNum").textContent = "Facture n° " + data.invoiceNumber;
+        document.getElementById("mainForm").style.display = "none";
+        document.getElementById("successScreen").style.display = "flex";
+      } else {
+        showError("Erreur : " + data.error);
+        document.querySelector(".btn-cta").disabled = false;
+      }
+    })
+    .catch(() => {
+      document.getElementById("loadingMsg").style.display = "none";
+      showError("Impossible de contacter le script. Vérifie l'URL.");
+      document.querySelector(".btn-cta").disabled = false;
+    });
+  }
+
+  function resetForm() {
+    prestations = []; counter = 0;
+    document.getElementById("client").value = "";
+    document.getElementById("mainForm").style.display = "flex";
+    document.getElementById("successScreen").style.display = "none";
+    document.querySelector(".btn-cta").disabled = false;
+    render();
+  }
+
+  // Init
+  document.getElementById("dateFacture").value = new Date().toISOString().split("T")[0];
+  addPrestation();
+
+</script>
+</body>
+</html>
