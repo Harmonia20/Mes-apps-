@@ -470,7 +470,7 @@
     if (!client) { showError("Renseigne le nom du client."); return; }
     if (!prestations.length) { showError("Ajoute au moins une prestation."); return; }
     if (prestations.some(p => !getPreview(p))) { showError("Une prestation est incomplète."); return; }
-    if (WEBAPP_URL === "https://script.google.com/macros/s/AKfycbywSEsMmetVFdoOp86xRMZY7CgcWruAo8UL63wLSGbNnT31w830OSYljSTIWqGHgQyj/exec") { showError("URL du script non configurée."); return; }
+    if (WEBAPP_URL === "COLLE_TON_URL_ICI") { showError("URL du script non configurée."); return; }
 
     document.getElementById("loadingMsg").style.display = "block";
     document.querySelector(".btn-cta").disabled = true;
