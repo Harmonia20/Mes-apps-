@@ -12,448 +12,159 @@
   <title>Facture Express</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 40%, #6366f1 100%);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      display: flex; justify-content: center; align-items: flex-start;
       padding: 24px 16px 40px;
     }
-
     .card {
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 420px;
       background: rgba(255,255,255,0.97);
-      border-radius: 24px;
-      overflow: hidden;
+      border-radius: 24px; overflow: hidden;
       box-shadow: 0 20px 60px rgba(6,182,212,0.3);
     }
-
     .header {
       background: linear-gradient(135deg, #0284c7, #0891b2 60%, #6366f1);
-      padding: 24px 20px 20px;
-      position: relative;
-      overflow: hidden;
+      padding: 24px 20px 20px; position: relative; overflow: hidden;
     }
-
     .header::after {
-      content: '';
-      position: absolute;
-      right: -20px; top: -20px;
-      width: 100px; height: 100px;
-      border-radius: 50%;
+      content: ''; position: absolute; right: -20px; top: -20px;
+      width: 100px; height: 100px; border-radius: 50%;
       background: rgba(255,255,255,0.08);
     }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-
+    .header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
     .logo {
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
+      width: 36px; height: 36px; background: rgba(255,255,255,0.2);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px;
     }
-
     .app-title { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
     .app-sub { font-size: 12px; color: rgba(255,255,255,0.65); margin-left: 46px; }
-
     .body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-
-    .section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #0891b2;
-      text-transform: uppercase;
-    }
-
+    .section-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #0891b2; text-transform: uppercase; }
     .field-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .field-label-row { display: flex; align-items: center; justify-content: space-between; }
     .field-label { font-size: 12px; font-weight: 600; color: #64748b; }
-
+    .btn-piocher {
+      font-size: 11px; font-weight: 600; color: #6366f1;
+      background: #ede9fe; border: 1px solid #c4b5fd;
+      border-radius: 6px; padding: 2px 8px; cursor: pointer;
+      font-family: inherit; display: none;
+    }
+    .btn-piocher.visible { display: inline-block; }
     .field-input, .field-select {
-      width: 100%;
-      padding: 10px 13px;
-      font-size: 14px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 10px;
-      background: #f8fafc;
-      color: #1e293b;
-      font-family: inherit;
+      width: 100%; padding: 10px 13px; font-size: 14px;
+      border: 1.5px solid #e2e8f0; border-radius: 10px;
+      background: #f8fafc; color: #1e293b; font-family: inherit;
     }
+    .field-input:focus, .field-select:focus { outline: none; border-color: #0891b2; background: #fff; }
+    textarea.field-input { resize: none; height: 70px; line-height: 1.5; }
+    .divider { height: 1px; background: linear-gradient(90deg, #e0f2fe, #c7d2fe, #e0f2fe); }
 
-    .field-input:focus, .field-select:focus {
-      outline: none;
-      border-color: #0891b2;
-      background: #fff;
-    }
-
-    textarea.field-input {
-      resize: none;
-      height: 70px;
-      line-height: 1.5;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, #e0f2fe, #c7d2fe, #e0f2fe);
-    }
-
-    /* ── Bouton Importer une collab ── */
+    /* Import */
     .btn-import {
-      width: 100%;
-      padding: 13px;
+      width: 100%; padding: 13px;
       background: linear-gradient(135deg, #f0f9ff, #ede9fe);
-      border: 1.5px solid #bae6fd;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #0284c7;
-      cursor: pointer;
-      font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      border: 1.5px solid #bae6fd; border-radius: 14px;
+      font-size: 14px; font-weight: 700; color: #0284c7;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn-import:active { opacity: 0.85; }
-
-    /* ── Modal collabs ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 100;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 0;
-    }
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      width: 100%;
-      max-width: 420px;
-      background: #fff;
-      border-radius: 24px 24px 0 0;
-      padding: 20px;
-      max-height: 80vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .modal-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #0284c7;
-    }
-
-    .modal-sub {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: -8px;
-    }
-
-    .collab-card {
-      background: #f0f9ff;
-      border: 1.5px solid #bae6fd;
-      border-radius: 14px;
-      padding: 13px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      transition: background 0.15s;
-    }
-    .collab-card:active { background: #e0f2fe; }
-
-    .collab-client {
-      font-size: 14px;
-      font-weight: 700;
-      color: #0284c7;
-    }
-
-    .collab-desc {
-      font-size: 12px;
-      color: #475569;
-      line-height: 1.4;
-    }
-
-    .collab-meta {
-      display: flex;
-      gap: 10px;
-      margin-top: 3px;
-    }
-
-    .collab-pill {
-      font-size: 11px;
-      font-weight: 600;
-      background: #fff;
-      border: 1px solid #bae6fd;
-      border-radius: 20px;
-      padding: 2px 9px;
-      color: #0891b2;
-    }
-
-    .collab-prix {
-      font-size: 13px;
-      font-weight: 700;
-      color: #6366f1;
-    }
-
-    .empty-collabs {
-      text-align: center;
-      padding: 24px;
-      font-size: 13px;
-      color: #94a3b8;
-    }
-
-    .btn-modal-close {
-      padding: 12px;
-      background: #f1f5f9;
-      border: none;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #64748b;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    /* ── Badge "importée" ── */
     .import-badge {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      background: #f0fdf4;
-      border: 1.5px solid #bbf7d0;
-      border-radius: 10px;
-      padding: 9px 13px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #166534;
+      display: none; align-items: center; gap: 8px;
+      background: #f0fdf4; border: 1.5px solid #bbf7d0;
+      border-radius: 10px; padding: 9px 13px;
+      font-size: 12px; font-weight: 600; color: #166534;
     }
     .import-badge.visible { display: flex; }
-    .badge-reset {
-      margin-left: auto;
-      font-size: 11px;
-      color: #f43f5e;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-weight: 600;
-    }
+    .badge-actions { margin-left: auto; display: flex; gap: 8px; }
+    .badge-btn { font-size: 11px; font-weight: 600; background: none; border: none; font-family: inherit; cursor: pointer; }
+    .badge-btn.fiche { color: #0891b2; }
+    .badge-btn.reset { color: #f43f5e; }
 
-    .prestation-card {
-      background: #f0f9ff;
-      border: 1.5px solid #bae6fd;
-      border-radius: 14px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    /* Modals */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 100;
+      justify-content: center; align-items: flex-end;
     }
-
-    .prestation-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .modal-overlay.open { display: flex; }
+    .modal {
+      width: 100%; max-width: 420px; background: #fff;
+      border-radius: 24px 24px 0 0; padding: 20px;
+      max-height: 82vh; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 12px;
     }
+    .modal-title { font-size: 15px; font-weight: 700; color: #0284c7; }
+    .modal-sub { font-size: 12px; color: #94a3b8; margin-top: -8px; }
 
-    .prestation-num {
-      font-size: 11px;
-      font-weight: 700;
-      color: #0284c7;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    /* Cartes collab */
+    .collab-card { border: 1.5px solid #bae6fd; border-radius: 14px; padding: 13px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
+    .collab-card.ok { background: #f0f9ff; }
+    .collab-card.warning { background: #fffbeb; border-color: #fcd34d; }
+    .collab-client { font-size: 14px; font-weight: 700; color: #0284c7; }
+    .collab-card.warning .collab-client { color: #92400e; }
+    .collab-desc { font-size: 12px; color: #475569; line-height: 1.4; }
+    .collab-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 3px; }
+    .collab-pill { font-size: 11px; font-weight: 600; background: #fff; border: 1px solid #bae6fd; border-radius: 20px; padding: 2px 9px; color: #0891b2; }
+    .collab-card.warning .collab-pill { border-color: #fcd34d; color: #92400e; }
+    .collab-prix { font-size: 13px; font-weight: 700; color: #6366f1; }
+    .collab-warning { font-size: 11px; font-weight: 600; color: #b45309; background: #fef3c7; border-radius: 6px; padding: 4px 8px; margin-top: 2px; }
+    .empty-collabs { text-align: center; padding: 24px; font-size: 13px; color: #94a3b8; }
+    .btn-modal-close { padding: 12px; background: #f1f5f9; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; font-family: inherit; }
 
-    .btn-remove {
-      font-size: 11px;
-      color: #f43f5e;
-      background: #fff0f3;
-      border: 1px solid #fecdd3;
-      border-radius: 6px;
-      padding: 3px 10px;
-      cursor: pointer;
-      font-family: inherit;
-    }
+    /* Fiche */
+    .fiche-section { display: flex; flex-direction: column; gap: 8px; }
+    .fiche-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; background: #f8fafc; border-radius: 8px; }
+    .fiche-key { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .fiche-val { font-size: 13px; color: #1e293b; line-height: 1.4; word-break: break-all; }
+    .fiche-val.missing { color: #f43f5e; font-style: italic; }
+    .fiche-val a { color: #0891b2; text-decoration: underline; }
 
-    .preview-pill {
-      background: linear-gradient(135deg, #e0f2fe, #ede9fe);
-      border-radius: 8px;
-      padding: 9px 11px;
-      font-size: 12px;
-      color: #0369a1;
-      line-height: 1.5;
-      min-height: 36px;
-    }
+    /* Piocher */
+    .piocher-list { display: flex; flex-direction: column; gap: 8px; }
+    .piocher-item { padding: 10px 13px; background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 10px; cursor: pointer; font-size: 13px; color: #0284c7; font-weight: 600; line-height: 1.4; }
+    .piocher-item:active { background: #e0f2fe; }
+    .piocher-key { font-size: 10px; color: #94a3b8; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
 
+    /* Prestations */
+    .prestation-card { background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .prestation-header { display: flex; justify-content: space-between; align-items: center; }
+    .prestation-num { font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-remove { font-size: 11px; color: #f43f5e; background: #fff0f3; border: 1px solid #fecdd3; border-radius: 6px; padding: 3px 10px; cursor: pointer; font-family: inherit; }
+    .preview-pill { background: linear-gradient(135deg, #e0f2fe, #ede9fe); border-radius: 8px; padding: 9px 11px; font-size: 12px; color: #0369a1; line-height: 1.5; min-height: 36px; }
     .preview-pill.empty { color: #94a3b8; font-style: italic; }
-
-    .prix-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .prix-row { display: flex; align-items: center; gap: 8px; }
     .prix-label { font-size: 12px; color: #64748b; white-space: nowrap; }
-
-    .prix-input {
-      flex: 1;
-      padding: 8px 11px;
-      font-size: 14px;
-      border: 1.5px solid #bae6fd;
-      border-radius: 8px;
-      background: #fff;
-      color: #1e293b;
-      font-family: inherit;
-      text-align: right;
-    }
-
+    .prix-input { flex: 1; padding: 8px 11px; font-size: 14px; border: 1.5px solid #bae6fd; border-radius: 8px; background: #fff; color: #1e293b; font-family: inherit; text-align: right; }
     .prix-input:focus { outline: none; border-color: #0891b2; }
+    .btn-add { width: 100%; padding: 10px; background: transparent; border: 1.5px dashed #7dd3fc; border-radius: 10px; font-size: 13px; font-weight: 600; color: #0284c7; cursor: pointer; font-family: inherit; }
 
-    .btn-add {
-      width: 100%;
-      padding: 10px;
-      background: transparent;
-      border: 1.5px dashed #7dd3fc;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #0284c7;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .total-card {
-      background: linear-gradient(135deg, #0284c7, #0891b2 60%, #6366f1);
-      border-radius: 14px;
-      padding: 16px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+    .total-card { background: linear-gradient(135deg, #0284c7, #0891b2 60%, #6366f1); border-radius: 14px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
     .total-label { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500; }
     .total-amount { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
 
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      background: #f0fdf4;
-      border: 1.5px solid #bbf7d0;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+    .checkbox-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; cursor: pointer; }
+    .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: #0891b2; cursor: pointer; }
+    .checkbox-label { font-size: 13px; font-weight: 600; color: #166534; line-height: 1.4; }
+    .checkbox-sub { font-size: 11px; color: #4ade80; margin-top: 1px; }
 
-    .checkbox-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #0891b2;
-      cursor: pointer;
-    }
-
-    .checkbox-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #166534;
-      line-height: 1.4;
-    }
-
-    .checkbox-sub {
-      font-size: 11px;
-      color: #4ade80;
-      margin-top: 1px;
-    }
-
-    .btn-cta {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #0ea5e9, #0891b2 50%, #6366f1);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      box-shadow: 0 4px 16px rgba(8,145,178,0.35);
-    }
-
+    .btn-cta { width: 100%; padding: 16px; background: linear-gradient(135deg, #0ea5e9, #0891b2 50%, #6366f1); color: #fff; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(8,145,178,0.35); }
     .btn-cta:active { opacity: 0.88; }
 
-    #successScreen {
-      display: none;
-      padding: 40px 24px;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      text-align: center;
-      background: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 100%);
-      min-height: 400px;
-      justify-content: center;
-    }
-
-    .success-circle {
-      width: 80px; height: 80px;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 32px; color: white;
-    }
-
+    #successScreen { display: none; padding: 40px 24px; flex-direction: column; align-items: center; gap: 14px; text-align: center; background: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 100%); min-height: 400px; justify-content: center; }
+    .success-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #0ea5e9, #6366f1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; }
     .success-title { font-size: 22px; font-weight: 700; color: #0284c7; }
     .success-num { font-size: 14px; color: #6366f1; font-weight: 600; }
     .success-sub { font-size: 13px; color: #64748b; line-height: 1.6; }
 
-    #loadingMsg {
-      display: none;
-      text-align: center;
-      padding: 10px;
-      font-size: 13px;
-      color: #0891b2;
-      font-weight: 500;
-    }
-
-    #loadingCollabs {
-      display: none;
-      text-align: center;
-      padding: 10px;
-      font-size: 13px;
-      color: #0891b2;
-      font-weight: 500;
-    }
-
-    #errorMsg {
-      display: none;
-      background: #fff0f3;
-      border: 1px solid #fecdd3;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: #f43f5e;
-      text-align: center;
-    }
+    #loadingMsg, #loadingCollabs { display: none; text-align: center; padding: 10px; font-size: 13px; color: #0891b2; font-weight: 500; }
+    #errorMsg { display: none; background: #fff0f3; border: 1px solid #fecdd3; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #f43f5e; text-align: center; }
   </style>
 </head>
 <body>
-
 <div class="card">
-
   <div class="header">
     <div class="header-top">
       <div class="logo">⚡</div>
@@ -463,52 +174,55 @@
   </div>
 
   <div class="body" id="mainForm">
+    <button class="btn-import" onclick="ouvrirModalCollabs()">📥 Importer une collab</button>
 
-    <!-- BOUTON IMPORT COLLAB -->
-    <button class="btn-import" onclick="ouvrirModalCollabs()">
-      📥 Importer une collab
-    </button>
-
-    <!-- Badge collab importée -->
     <div class="import-badge" id="importBadge">
       ✅ Collab importée
-      <button class="badge-reset" onclick="resetImport()">Effacer</button>
+      <div class="badge-actions">
+        <button class="badge-btn fiche" onclick="ouvrirFiche()">📋 Voir la fiche</button>
+        <button class="badge-btn reset" onclick="resetImport()">Effacer</button>
+      </div>
     </div>
 
-    <!-- DATE -->
     <div class="field-wrap">
-      <div class="field-label">Date de facturation</div>
+      <div class="field-label-row">
+        <span class="field-label">Date de facturation</span>
+        <button class="btn-piocher" id="piocher-date" onclick="ouvrirPiocher('date')">📋 Piocher</button>
+      </div>
       <input class="field-input" type="date" id="dateFacture">
     </div>
 
     <div class="divider"></div>
     <div class="section-label">Client</div>
 
-    <!-- CLIENT -->
     <div class="field-wrap">
-      <div class="field-label">Nom du client / marque</div>
+      <div class="field-label-row">
+        <span class="field-label">Nom du client / marque</span>
+        <button class="btn-piocher" id="piocher-client" onclick="ouvrirPiocher('client')">📋 Piocher</button>
+      </div>
       <input class="field-input" type="text" id="client" placeholder="ex: Nike France">
     </div>
 
-    <!-- ADRESSE -->
     <div class="field-wrap">
-      <div class="field-label">Adresse (ou NC)</div>
+      <div class="field-label-row">
+        <span class="field-label">Adresse (ou NC)</span>
+        <button class="btn-piocher" id="piocher-adresse" onclick="ouvrirPiocher('adresse')">📋 Piocher</button>
+      </div>
       <textarea class="field-input" id="adresse" placeholder="ex: 12 rue de la Paix, 75001 Paris&#10;ou NC"></textarea>
     </div>
 
-    <!-- CONTACT -->
     <div class="field-wrap">
-      <div class="field-label">Contact (email ou téléphone)</div>
+      <div class="field-label-row">
+        <span class="field-label">Contact (email ou téléphone)</span>
+        <button class="btn-piocher" id="piocher-contact" onclick="ouvrirPiocher('contact')">📋 Piocher</button>
+      </div>
       <input class="field-input" type="text" id="contact" placeholder="ex: contact@nike.fr ou 06 12 34 56 78">
     </div>
 
     <div class="divider"></div>
     <div class="section-label">Prestations</div>
-
     <div id="prestationsContainer" style="display:flex;flex-direction:column;gap:12px;"></div>
-
     <button class="btn-add" onclick="addPrestation()">+ Ajouter une prestation</button>
-
     <div class="divider"></div>
 
     <div class="total-card">
@@ -516,7 +230,6 @@
       <span class="total-amount" id="totalDisplay">0,00 €</span>
     </div>
 
-    <!-- ENVOI EMAIL -->
     <label class="checkbox-row">
       <input type="checkbox" id="envoyerEmail">
       <div>
@@ -527,47 +240,55 @@
 
     <div id="errorMsg"></div>
     <div id="loadingMsg">⏳ Création en cours...</div>
-
     <button class="btn-cta" onclick="submitFacture()">⚡ Créer la facture</button>
-
   </div>
 
-  <!-- Écran succès -->
   <div id="successScreen">
     <div class="success-circle">✓</div>
     <div class="success-title">Facture créée !</div>
     <div class="success-num" id="successNum"></div>
-    <div class="success-sub" id="successSub">PDF généré et archivé dans Drive.<br>Le modèle est prêt pour la prochaine.</div>
+    <div class="success-sub" id="successSub"></div>
     <button class="btn-cta" style="margin-top:12px" onclick="resetForm()">+ Nouvelle facture</button>
   </div>
-
 </div>
 
 <!-- Modal collabs -->
-<div class="modal-overlay" id="modalOverlay" onclick="fermerModalSiDehors(event)">
-  <div class="modal" id="modalContent">
+<div class="modal-overlay" id="modalCollabs" onclick="fermerModalSiDehors(event,'modalCollabs')">
+  <div class="modal">
     <div class="modal-title">📋 Collabs à facturer</div>
-    <div class="modal-sub">Sélectionne une collab pour pré-remplir le formulaire</div>
-    <div id="loadingCollabs">⏳ Chargement des collabs...</div>
+    <div class="modal-sub">Sélectionne une collab pour l'importer</div>
+    <div id="loadingCollabs">⏳ Chargement...</div>
     <div id="collabsList"></div>
-    <button class="btn-modal-close" onclick="fermerModal()">Fermer</button>
+    <button class="btn-modal-close" onclick="fermerModal('modalCollabs')">Fermer</button>
+  </div>
+</div>
+
+<!-- Modal fiche détail -->
+<div class="modal-overlay" id="modalFiche" onclick="fermerModalSiDehors(event,'modalFiche')">
+  <div class="modal">
+    <div class="modal-title">📋 Fiche collab</div>
+    <div class="fiche-section" id="ficheContent"></div>
+    <button class="btn-modal-close" onclick="fermerModal('modalFiche')">Fermer</button>
+  </div>
+</div>
+
+<!-- Modal piocher -->
+<div class="modal-overlay" id="modalPiocher" onclick="fermerModalSiDehors(event,'modalPiocher')">
+  <div class="modal">
+    <div class="modal-title" id="piocherTitle">Choisir une valeur</div>
+    <div class="modal-sub">Clique sur une valeur pour la copier dans le champ</div>
+    <div class="piocher-list" id="piocherList"></div>
+    <button class="btn-modal-close" onclick="fermerModal('modalPiocher')">Annuler</button>
   </div>
 </div>
 
 <script>
-
-  // ============================================================
-  // ⬇️  COLLE TON URL APPS SCRIPT ICI
-  // ============================================================
   const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUad-ZVTD37C7yT6oKq7977RJdcguWyHKuL7qg8pW5GIbDksTqSX8IrIktuK0zvKB1/exec";
-  // ============================================================
-
   const TIKTOK = "@naia_la_star";
 
   const TEMPLATES = [
     {
-      id: "musique",
-      label: "Utilisation d'une chanson",
+      id: "musique", label: "Utilisation d'une chanson",
       fields: [
         { key: "titre",   label: "Titre de la chanson", placeholder: "ex: Flowers" },
         { key: "artiste", label: "Artiste",              placeholder: "ex: Miley Cyrus" },
@@ -576,8 +297,7 @@
       build: v => `Utilisation de la chanson "${v.titre}" de ${v.artiste} pour une vidéo TikTok publiée le ${formatDate(v.datePub)} sur le compte ${TIKTOK}`
     },
     {
-      id: "marque",
-      label: "Vidéo sponsorisée marque",
+      id: "marque", label: "Vidéo sponsorisée marque",
       fields: [
         { key: "marque",  label: "Nom de la marque",    placeholder: "ex: Nike" },
         { key: "datePub", label: "Date de publication", type: "date" }
@@ -585,186 +305,210 @@
       build: v => `Création et publication d'une vidéo TikTok sponsorisée pour la marque ${v.marque}, publiée le ${formatDate(v.datePub)} sur le compte ${TIKTOK}`
     },
     {
-      id: "libre",
-      label: "Prestation libre",
-      fields: [
-        { key: "desc", label: "Description", placeholder: "Décris la prestation..." }
-      ],
+      id: "libre", label: "Prestation libre",
+      fields: [{ key: "desc", label: "Description", placeholder: "Décris la prestation..." }],
       build: v => v.desc
     }
   ];
 
-  function formatDate(dateStr) {
-    if (!dateStr) return "";
-    const [y, m, d] = dateStr.split("-");
+  function formatDate(s) {
+    if (!s) return "";
+    const [y,m,d] = s.split("-");
     return `${d}/${m}/${y}`;
   }
 
-  let prestations = [];
-  let counter = 0;
-
-  // Données de la collab importée (pour reporter le numéro de facture)
+  let prestations = [], counter = 0;
   let collabImportee = null;
+  let piocherCible = null, piocherPrestationId = null, piocherPrestationKey = null;
+  let piocherOptions = [];
 
-  // ============================================================
-  // IMPORT COLLAB
-  // ============================================================
+  // Modals
+  function fermerModal(id) { document.getElementById(id).classList.remove('open'); }
+  function ouvrirModal(id) { document.getElementById(id).classList.add('open'); }
+  function fermerModalSiDehors(e, id) { if (e.target === document.getElementById(id)) fermerModal(id); }
 
+  // ── Collabs
   function ouvrirModalCollabs() {
-    document.getElementById('modalOverlay').classList.add('open');
+    ouvrirModal('modalCollabs');
     document.getElementById('collabsList').innerHTML = '';
     document.getElementById('loadingCollabs').style.display = 'block';
+    fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify({ action: 'getCollabs' }) })
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('loadingCollabs').style.display = 'none';
+        if (data.success && data.collabs.length > 0) afficherCollabs(data.collabs);
+        else if (data.success) document.getElementById('collabsList').innerHTML = '<div class="empty-collabs">✅ Aucune collab en attente</div>';
+        else document.getElementById('collabsList').innerHTML = '<div class="empty-collabs">❌ ' + (data.error || 'Erreur') + '</div>';
+      })
+      .catch(() => {
+        document.getElementById('loadingCollabs').style.display = 'none';
+        document.getElementById('collabsList').innerHTML = '<div class="empty-collabs">❌ Impossible de contacter le script</div>';
+      });
+  }
 
-    fetch(WEBAPP_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'getCollabs' })
-    })
-    .then(r => r.json())
-    .then(data => {
-      document.getElementById('loadingCollabs').style.display = 'none';
-      if (data.success && data.collabs.length > 0) {
-        afficherCollabs(data.collabs);
-      } else if (data.success && data.collabs.length === 0) {
-        document.getElementById('collabsList').innerHTML =
-          '<div class="empty-collabs">✅ Aucune collab en attente de facturation</div>';
-      } else {
-        document.getElementById('collabsList').innerHTML =
-          '<div class="empty-collabs">❌ Erreur : ' + (data.error || 'impossible de charger') + '</div>';
-      }
-    })
-    .catch(() => {
-      document.getElementById('loadingCollabs').style.display = 'none';
-      document.getElementById('collabsList').innerHTML =
-        '<div class="empty-collabs">❌ Impossible de contacter le script</div>';
-    });
+  function champsManquants(c) {
+    const m = [];
+    if (!c.lienVideo) m.push('lien vidéo');
+    if (!c.publieLe)  m.push('date de publication');
+    return m;
   }
 
   function afficherCollabs(collabs) {
     const container = document.getElementById('collabsList');
     container.innerHTML = '';
-
-    collabs.forEach((collab, idx) => {
-      const total = collab.prestations.reduce((s, p) => s + p.prix, 0);
-      const totalStr = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' €';
-
+    collabs.forEach(c => {
+      const manquants = champsManquants(c);
+      const warn = manquants.length > 0;
+      const total = c.prestations.reduce((s,p) => s + p.prix, 0).toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €';
       const div = document.createElement('div');
-      div.className = 'collab-card';
+      div.className = 'collab-card ' + (warn ? 'warning' : 'ok');
       div.innerHTML = `
-        <div class="collab-client">${collab.client}</div>
-        <div class="collab-desc">${collab.description || '—'}</div>
+        <div class="collab-client">${c.client}</div>
+        <div class="collab-desc">${c.description || '—'}</div>
         <div class="collab-meta">
-          <span class="collab-pill">📅 ${collab.date || '—'}</span>
-          <span class="collab-prix">${totalStr}</span>
+          <span class="collab-pill">📅 ${c.date || '—'}</span>
+          <span class="collab-prix">${total}</span>
         </div>
+        ${warn ? `<div class="collab-warning">⚠️ Manquant : ${manquants.join(', ')}</div>` : ''}
       `;
-      div.onclick = () => importerCollab(collab);
+      div.onclick = () => importerCollab(c);
       container.appendChild(div);
     });
   }
 
-  function importerCollab(collab) {
-    // Mémoriser pour reporter le numéro de facture après création
-    collabImportee = collab;
-
-    // Pré-remplir le formulaire
-    document.getElementById('dateFacture').value = collab.dateRaw || new Date().toISOString().split('T')[0];
-    document.getElementById('client').value = collab.client || '';
+  function importerCollab(c) {
+    collabImportee = c;
+    document.getElementById('dateFacture').value = c.dateRaw || new Date().toISOString().split('T')[0];
+    document.getElementById('client').value = c.client || '';
     document.getElementById('adresse').value = 'NC';
-    document.getElementById('contact').value = collab.coordonnees || '';
-
-    // Pré-remplir les prestations
-    prestations = [];
-    counter = 0;
-    collab.prestations.forEach(p => {
-      prestations.push({
-        id: ++counter,
-        tplId: 'libre',
-        vals: { desc: p.description },
-        prix: p.prix
-      });
-    });
-
-    fermerModal();
+    document.getElementById('contact').value = c.coordonnees || '';
+    prestations = []; counter = 0;
+    c.prestations.forEach(p => prestations.push({ id: ++counter, tplId: 'libre', vals: { desc: p.description }, prix: p.prix }));
+    fermerModal('modalCollabs');
     render();
-
-    // Afficher le badge
+    document.querySelectorAll('.btn-piocher').forEach(b => b.classList.add('visible'));
     document.getElementById('importBadge').classList.add('visible');
-
-    // Scroll vers le formulaire
     document.getElementById('mainForm').scrollIntoView({ behavior: 'smooth' });
   }
 
   function resetImport() {
     collabImportee = null;
     document.getElementById('importBadge').classList.remove('visible');
+    document.querySelectorAll('.btn-piocher').forEach(b => b.classList.remove('visible'));
   }
 
-  function fermerModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
+  // ── Fiche
+  function ouvrirFiche() {
+    if (!collabImportee) return;
+    const c = collabImportee;
+    const champs = [
+      { k: 'Client',          v: c.client },
+      { k: 'Description',     v: c.description },
+      { k: 'Type de revenu',  v: c.typeRevenu },
+      { k: 'Plateforme',      v: c.plateforme },
+      { k: 'Rémunération',    v: c.remuCollab ? c.remuCollab + ' €' : null },
+      { k: 'Produit reçu',    v: c.produitRecu },
+      { k: 'Valeur estimée',  v: c.valeurEstim ? c.valeurEstim + ' €' : null },
+      { k: 'Lien vidéo',      v: c.lienVideo, link: true },
+      { k: 'Publié le',       v: c.publieLe },
+      { k: 'Coordonnées',     v: c.coordonnees },
+      { k: 'Date collab',     v: c.date },
+    ];
+    document.getElementById('ficheContent').innerHTML = champs.map(ch =>
+      `<div class="fiche-row">
+        <span class="fiche-key">${ch.k}</span>
+        ${!ch.v
+          ? '<span class="fiche-val missing">— non renseigné</span>'
+          : ch.link
+            ? `<span class="fiche-val"><a href="${ch.v}" target="_blank">${ch.v}</a></span>`
+            : `<span class="fiche-val">${ch.v}</span>`}
+      </div>`
+    ).join('');
+    ouvrirModal('modalFiche');
   }
 
-  function fermerModalSiDehors(e) {
-    if (e.target === document.getElementById('modalOverlay')) fermerModal();
+  // ── Piocher
+  const PIOCHER_CONFIG = {
+    date:    { label: 'Date', opts: c => [{ l:'Date de la collab', v:c.dateRaw }, { l:'Publié le', v:c.publieLe }] },
+    client:  { label: 'Client', opts: c => [{ l:'Client / marque', v:c.client }, { l:'Plateforme', v:c.plateforme }] },
+    adresse: { label: 'Adresse', opts: c => [{ l:'Coordonnées complètes', v:c.coordonnees }, { l:'NC', v:'NC' }] },
+    contact: { label: 'Contact', opts: c => [{ l:'Coordonnées complètes', v:c.coordonnees }, { l:'Client / marque', v:c.client }] },
+  };
+
+  function optionsPrestation(c) {
+    return [
+      { l:'Description contenu', v:c.description },
+      { l:'Client / marque',     v:c.client },
+      { l:'Plateforme',          v:c.plateforme },
+      { l:'Produit reçu',        v:c.produitRecu },
+      { l:'Lien vidéo',          v:c.lienVideo },
+      { l:'Date de la collab',   v:c.dateRaw },
+      { l:'Publié le',           v:c.publieLe },
+    ].filter(o => o.v);
   }
 
-  // ============================================================
-  // FORMULAIRE
-  // ============================================================
-
-  function addPrestation() {
-    prestations.push({ id: ++counter, tplId: "musique", vals: {}, prix: "" });
-    render();
+  function ouvrirPiocher(cible, prestId, prestKey) {
+    if (!collabImportee) return;
+    piocherCible = cible; piocherPrestationId = prestId || null; piocherPrestationKey = prestKey || null;
+    let titre, opts;
+    if (cible === 'prestation') {
+      titre = 'Choisir pour ce champ';
+      opts = optionsPrestation(collabImportee);
+    } else {
+      const cfg = PIOCHER_CONFIG[cible];
+      titre = 'Choisir : ' + cfg.label;
+      opts = cfg.opts(collabImportee).filter(o => o.v);
+    }
+    piocherOptions = opts;
+    document.getElementById('piocherTitle').textContent = titre;
+    document.getElementById('piocherList').innerHTML = opts.length === 0
+      ? '<div class="empty-collabs">Aucune valeur disponible</div>'
+      : opts.map((o,i) => `<div class="piocher-item" onclick="appliquerPiocher(${i})"><span class="piocher-key">${o.l}</span>${o.v}</div>`).join('');
+    ouvrirModal('modalPiocher');
   }
 
-  function removePrestation(id) {
-    prestations = prestations.filter(p => p.id !== id);
-    render();
+  function appliquerPiocher(idx) {
+    const val = piocherOptions[idx].v;
+    if (piocherCible === 'prestation' && piocherPrestationId !== null) {
+      const p = prestations.find(p => p.id === piocherPrestationId);
+      if (p) { p.vals[piocherPrestationKey] = val; fermerModal('modalPiocher'); render(); return; }
+    }
+    const el = document.getElementById(piocherCible === 'date' ? 'dateFacture' : piocherCible);
+    if (el) el.value = val;
+    fermerModal('modalPiocher');
   }
+
+  // ── Prestations
+  function addPrestation() { prestations.push({ id: ++counter, tplId:"musique", vals:{}, prix:"" }); render(); }
+  function removePrestation(id) { prestations = prestations.filter(p => p.id !== id); render(); }
 
   function render() {
     const c = document.getElementById("prestationsContainer");
     c.innerHTML = "";
+    const hasFiche = !!collabImportee;
     prestations.forEach((p, idx) => {
       const tpl = TEMPLATES.find(t => t.id === p.tplId);
       const div = document.createElement("div");
       div.className = "prestation-card";
-
-      const selectOpts = TEMPLATES.map(t =>
-        `<option value="${t.id}" ${t.id === p.tplId ? "selected" : ""}>${t.label}</option>`
-      ).join("");
-
+      const selectOpts = TEMPLATES.map(t => `<option value="${t.id}" ${t.id===p.tplId?"selected":""}>${t.label}</option>`).join("");
       const fieldsHtml = tpl.fields.map(f => {
         const v = p.vals[f.key] || "";
-        if (f.type === "date") {
-          return `<div class="field-wrap">
-            <div class="field-label">${f.label}</div>
-            <input class="field-input" type="date" value="${v}"
-              oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})">
-          </div>`;
-        }
-        return `<div class="field-wrap">
-          <div class="field-label">${f.label}</div>
-          <input class="field-input" type="text" placeholder="${f.placeholder}" value="${v}"
-            oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})">
-        </div>`;
+        const piocherBtn = hasFiche ? `<button class="btn-piocher visible" onclick="ouvrirPiocher('prestation',${p.id},'${f.key}')">📋 Piocher</button>` : '';
+        if (f.type === "date") return `<div class="field-wrap"><div class="field-label-row"><span class="field-label">${f.label}</span>${piocherBtn}</div><input class="field-input" type="date" value="${v}" oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})"></div>`;
+        return `<div class="field-wrap"><div class="field-label-row"><span class="field-label">${f.label}</span>${piocherBtn}</div><input class="field-input" type="text" placeholder="${f.placeholder}" value="${v}" oninput="setVal(${p.id},'${f.key}',this.value);refreshPreview(${p.id})"></div>`;
       }).join("");
-
       const preview = getPreview(p);
-
       div.innerHTML = `
         <div class="prestation-header">
-          <span class="prestation-num">Prestation ${idx + 1}</span>
+          <span class="prestation-num">Prestation ${idx+1}</span>
           <button class="btn-remove" onclick="removePrestation(${p.id})">Retirer</button>
         </div>
         <select class="field-select" onchange="changeTpl(${p.id},this.value)">${selectOpts}</select>
         ${fieldsHtml}
-        <div class="preview-pill ${preview ? '' : 'empty'}" id="prev-${p.id}">
-          ${preview || "Aperçu automatique..."}
-        </div>
+        <div class="preview-pill ${preview?'':'empty'}" id="prev-${p.id}">${preview||"Aperçu automatique..."}</div>
         <div class="prix-row">
           <span class="prix-label">Prix HT</span>
-          <input class="prix-input" type="number" min="0" step="0.01" placeholder="0,00"
-            value="${p.prix}" oninput="setPrix(${p.id},this.value)">
+          <input class="prix-input" type="number" min="0" step="0.01" placeholder="0,00" value="${p.prix}" oninput="setPrix(${p.id},this.value)">
           <span class="prix-label">€</span>
         </div>`;
       c.appendChild(div);
@@ -772,127 +516,97 @@
     updateTotal();
   }
 
-  function setVal(id, key, val) {
-    const p = prestations.find(p => p.id === id);
-    if (p) p.vals[key] = val;
-  }
-
-  function setPrix(id, val) {
-    const p = prestations.find(p => p.id === id);
-    if (p) p.prix = val;
-    updateTotal();
-  }
-
-  function changeTpl(id, tplId) {
-    const p = prestations.find(p => p.id === id);
-    if (p) { p.tplId = tplId; p.vals = {}; }
+  function setVal(id,key,val) { const p=prestations.find(p=>p.id===id); if(p) p.vals[key]=val; }
+  function setPrix(id,val) { const p=prestations.find(p=>p.id===id); if(p) p.prix=val; updateTotal(); }
+  function changeTpl(id,tplId) {
+    const p=prestations.find(p=>p.id===id);
+    if(p) {
+      p.tplId=tplId; p.vals={};
+      if(tplId==='marque' && collabImportee && collabImportee.client) p.vals.marque=collabImportee.client;
+    }
     render();
   }
-
   function refreshPreview(id) {
-    const p = prestations.find(p => p.id === id);
-    const el = document.getElementById("prev-" + id);
-    if (!p || !el) return;
-    const txt = getPreview(p);
-    el.textContent = txt || "Aperçu automatique...";
-    el.className = "preview-pill" + (txt ? "" : " empty");
+    const p=prestations.find(p=>p.id===id), el=document.getElementById("prev-"+id);
+    if(!p||!el) return;
+    const txt=getPreview(p);
+    el.textContent=txt||"Aperçu automatique...";
+    el.className="preview-pill"+(txt?"":" empty");
   }
-
   function getPreview(p) {
-    const tpl = TEMPLATES.find(t => t.id === p.tplId);
-    if (!tpl) return "";
-    if (!tpl.fields.every(f => p.vals[f.key])) return "";
+    const tpl=TEMPLATES.find(t=>t.id===p.tplId);
+    if(!tpl||!tpl.fields.every(f=>p.vals[f.key])) return "";
     return tpl.build(p.vals);
   }
-
   function updateTotal() {
-    const total = prestations.reduce((s, p) => s + (parseFloat(p.prix) || 0), 0);
-    document.getElementById("totalDisplay").textContent =
-      total.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    const total=prestations.reduce((s,p)=>s+(parseFloat(p.prix)||0),0);
+    document.getElementById("totalDisplay").textContent=total.toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
   }
 
+  // ── Envoi
   function showError(msg) {
-    const el = document.getElementById("errorMsg");
-    el.textContent = msg;
-    el.style.display = "block";
-    setTimeout(() => { el.style.display = "none"; }, 4000);
+    const el=document.getElementById("errorMsg");
+    el.textContent=msg; el.style.display="block";
+    setTimeout(()=>{el.style.display="none";},4000);
   }
 
   function submitFacture() {
-    const client = document.getElementById("client").value.trim();
-    const adresse = document.getElementById("adresse").value.trim();
-    const contact = document.getElementById("contact").value.trim();
-    const envoyerEmail = document.getElementById("envoyerEmail").checked;
-
-    if (!client) { showError("Renseigne le nom du client."); return; }
-    if (!adresse) { showError("Renseigne l'adresse ou NC."); return; }
-    if (!prestations.length) { showError("Ajoute au moins une prestation."); return; }
-    if (prestations.some(p => !getPreview(p))) { showError("Une prestation est incomplète."); return; }
-    if (WEBAPP_URL === "COLLE_TON_URL_ICI") { showError("URL du script non configurée."); return; }
-
-    document.getElementById("loadingMsg").style.display = "block";
-    document.querySelector(".btn-cta").disabled = true;
-
-    const payload = {
-      client,
-      adresse,
-      contact,
+    const client=document.getElementById("client").value.trim();
+    const adresse=document.getElementById("adresse").value.trim();
+    const envoyerEmail=document.getElementById("envoyerEmail").checked;
+    if(!client){showError("Renseigne le nom du client.");return;}
+    if(!adresse){showError("Renseigne l'adresse ou NC.");return;}
+    if(!prestations.length){showError("Ajoute au moins une prestation.");return;}
+    if(prestations.some(p=>!getPreview(p))){showError("Une prestation est incomplète.");return;}
+    document.getElementById("loadingMsg").style.display="block";
+    document.querySelector(".btn-cta").disabled=true;
+    const payload={
+      client, adresse,
+      contact: document.getElementById("contact").value.trim(),
       envoyerEmail,
       dateFacture: document.getElementById("dateFacture").value,
-      prestations: prestations.map(p => ({
-        description: getPreview(p),
-        prix: parseFloat(p.prix) || 0
-      })),
-      // Si collab importée, on passe les infos pour reporter le numéro de facture
+      prestations: prestations.map(p=>({ description:getPreview(p), prix:parseFloat(p.prix)||0 })),
       rowIndex: collabImportee ? collabImportee.rowIndex : undefined,
       sheetName: collabImportee ? collabImportee.sheetName : undefined
     };
-
-    fetch(WEBAPP_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    })
-    .then(r => r.json())
-    .then(data => {
-      document.getElementById("loadingMsg").style.display = "none";
-      if (data.success) {
-        document.getElementById("successNum").textContent = "Facture n° " + data.invoiceNumber;
-        document.getElementById("successSub").innerHTML =
-          "PDF généré et archivé dans Drive." +
-          (envoyerEmail ? "<br>Email envoyé à ta fille ✓" : "") +
-          (collabImportee ? "<br>Numéro reporté dans le tableau ✓" : "") +
-          "<br>Le modèle est prêt pour la prochaine.";
-        document.getElementById("mainForm").style.display = "none";
-        document.getElementById("successScreen").style.display = "flex";
-      } else {
-        showError("Erreur : " + data.error);
-        document.querySelector(".btn-cta").disabled = false;
-      }
-    })
-    .catch(() => {
-      document.getElementById("loadingMsg").style.display = "none";
-      showError("Impossible de contacter le script. Vérifie l'URL.");
-      document.querySelector(".btn-cta").disabled = false;
-    });
+    fetch(WEBAPP_URL,{method:"POST",body:JSON.stringify(payload)})
+      .then(r=>r.json())
+      .then(data=>{
+        document.getElementById("loadingMsg").style.display="none";
+        if(data.success){
+          document.getElementById("successNum").textContent="Facture n° "+data.invoiceNumber;
+          document.getElementById("successSub").innerHTML=
+            "PDF généré et archivé dans Drive."+(envoyerEmail?"<br>Email envoyé ✓":"")+(collabImportee?"<br>Numéro reporté dans le tableau ✓":"")+"<br>Le modèle est prêt pour la prochaine.";
+          document.getElementById("mainForm").style.display="none";
+          document.getElementById("successScreen").style.display="flex";
+        } else {
+          showError("Erreur : "+data.error);
+          document.querySelector(".btn-cta").disabled=false;
+        }
+      })
+      .catch(()=>{
+        document.getElementById("loadingMsg").style.display="none";
+        showError("Impossible de contacter le script.");
+        document.querySelector(".btn-cta").disabled=false;
+      });
   }
 
   function resetForm() {
-    prestations = []; counter = 0;
-    collabImportee = null;
-    document.getElementById("client").value = "";
-    document.getElementById("adresse").value = "";
-    document.getElementById("contact").value = "";
-    document.getElementById("envoyerEmail").checked = false;
+    prestations=[]; counter=0; collabImportee=null;
+    document.getElementById("client").value="";
+    document.getElementById("adresse").value="";
+    document.getElementById("contact").value="";
+    document.getElementById("envoyerEmail").checked=false;
     document.getElementById("importBadge").classList.remove("visible");
-    document.getElementById("mainForm").style.display = "flex";
-    document.getElementById("successScreen").style.display = "none";
-    document.querySelector(".btn-cta").disabled = false;
+    document.querySelectorAll('.btn-piocher').forEach(b=>b.classList.remove('visible'));
+    document.getElementById("mainForm").style.display="flex";
+    document.getElementById("successScreen").style.display="none";
+    document.querySelector(".btn-cta").disabled=false;
     render();
   }
 
-  document.getElementById("dateFacture").value = new Date().toISOString().split("T")[0];
+  document.getElementById("dateFacture").value=new Date().toISOString().split("T")[0];
   addPrestation();
-
 </script>
 </body>
 </html>
