@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Facture Express">
   <link rel="apple-touch-icon" href="../favicon.png">
-<link rel="icon" href="../favicon.png">
+  <link rel="icon" href="../favicon.png">
   <title>Facture Express</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -105,6 +105,154 @@
     .divider {
       height: 1px;
       background: linear-gradient(90deg, #e0f2fe, #c7d2fe, #e0f2fe);
+    }
+
+    /* ── Bouton Importer une collab ── */
+    .btn-import {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #f0f9ff, #ede9fe);
+      border: 1.5px solid #bae6fd;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0284c7;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-import:active { opacity: 0.85; }
+
+    /* ── Modal collabs ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      padding: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0284c7;
+    }
+
+    .modal-sub {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: -8px;
+    }
+
+    .collab-card {
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: 14px;
+      padding: 13px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: background 0.15s;
+    }
+    .collab-card:active { background: #e0f2fe; }
+
+    .collab-client {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0284c7;
+    }
+
+    .collab-desc {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    .collab-meta {
+      display: flex;
+      gap: 10px;
+      margin-top: 3px;
+    }
+
+    .collab-pill {
+      font-size: 11px;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid #bae6fd;
+      border-radius: 20px;
+      padding: 2px 9px;
+      color: #0891b2;
+    }
+
+    .collab-prix {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6366f1;
+    }
+
+    .empty-collabs {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .btn-modal-close {
+      padding: 12px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── Badge "importée" ── */
+    .import-badge {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #166534;
+    }
+    .import-badge.visible { display: flex; }
+    .badge-reset {
+      margin-left: auto;
+      font-size: 11px;
+      color: #f43f5e;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-weight: 600;
     }
 
     .prestation-card {
@@ -281,6 +429,15 @@
       font-weight: 500;
     }
 
+    #loadingCollabs {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      color: #0891b2;
+      font-weight: 500;
+    }
+
     #errorMsg {
       display: none;
       background: #fff0f3;
@@ -306,6 +463,17 @@
   </div>
 
   <div class="body" id="mainForm">
+
+    <!-- BOUTON IMPORT COLLAB -->
+    <button class="btn-import" onclick="ouvrirModalCollabs()">
+      📥 Importer une collab
+    </button>
+
+    <!-- Badge collab importée -->
+    <div class="import-badge" id="importBadge">
+      ✅ Collab importée
+      <button class="badge-reset" onclick="resetImport()">Effacer</button>
+    </div>
 
     <!-- DATE -->
     <div class="field-wrap">
@@ -375,10 +543,21 @@
 
 </div>
 
+<!-- Modal collabs -->
+<div class="modal-overlay" id="modalOverlay" onclick="fermerModalSiDehors(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-title">📋 Collabs à facturer</div>
+    <div class="modal-sub">Sélectionne une collab pour pré-remplir le formulaire</div>
+    <div id="loadingCollabs">⏳ Chargement des collabs...</div>
+    <div id="collabsList"></div>
+    <button class="btn-modal-close" onclick="fermerModal()">Fermer</button>
+  </div>
+</div>
+
 <script>
 
   // ============================================================
-  // ⬇️  COLLE TON URL APPS SCRIPT ICI (entre les guillemets)
+  // ⬇️  COLLE TON URL APPS SCRIPT ICI
   // ============================================================
   const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUad-ZVTD37C7yT6oKq7977RJdcguWyHKuL7qg8pW5GIbDksTqSX8IrIktuK0zvKB1/exec";
   // ============================================================
@@ -415,7 +594,6 @@
     }
   ];
 
-  // Formate 2025-03-16 en 16/03/2025
   function formatDate(dateStr) {
     if (!dateStr) return "";
     const [y, m, d] = dateStr.split("-");
@@ -424,6 +602,114 @@
 
   let prestations = [];
   let counter = 0;
+
+  // Données de la collab importée (pour reporter le numéro de facture)
+  let collabImportee = null;
+
+  // ============================================================
+  // IMPORT COLLAB
+  // ============================================================
+
+  function ouvrirModalCollabs() {
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('collabsList').innerHTML = '';
+    document.getElementById('loadingCollabs').style.display = 'block';
+
+    fetch(WEBAPP_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'getCollabs' })
+    })
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('loadingCollabs').style.display = 'none';
+      if (data.success && data.collabs.length > 0) {
+        afficherCollabs(data.collabs);
+      } else if (data.success && data.collabs.length === 0) {
+        document.getElementById('collabsList').innerHTML =
+          '<div class="empty-collabs">✅ Aucune collab en attente de facturation</div>';
+      } else {
+        document.getElementById('collabsList').innerHTML =
+          '<div class="empty-collabs">❌ Erreur : ' + (data.error || 'impossible de charger') + '</div>';
+      }
+    })
+    .catch(() => {
+      document.getElementById('loadingCollabs').style.display = 'none';
+      document.getElementById('collabsList').innerHTML =
+        '<div class="empty-collabs">❌ Impossible de contacter le script</div>';
+    });
+  }
+
+  function afficherCollabs(collabs) {
+    const container = document.getElementById('collabsList');
+    container.innerHTML = '';
+
+    collabs.forEach((collab, idx) => {
+      const total = collab.prestations.reduce((s, p) => s + p.prix, 0);
+      const totalStr = total.toLocaleString('fr-FR', { minimumFractionDigits: 2 }) + ' €';
+
+      const div = document.createElement('div');
+      div.className = 'collab-card';
+      div.innerHTML = `
+        <div class="collab-client">${collab.client}</div>
+        <div class="collab-desc">${collab.description || '—'}</div>
+        <div class="collab-meta">
+          <span class="collab-pill">📅 ${collab.date || '—'}</span>
+          <span class="collab-prix">${totalStr}</span>
+        </div>
+      `;
+      div.onclick = () => importerCollab(collab);
+      container.appendChild(div);
+    });
+  }
+
+  function importerCollab(collab) {
+    // Mémoriser pour reporter le numéro de facture après création
+    collabImportee = collab;
+
+    // Pré-remplir le formulaire
+    document.getElementById('dateFacture').value = collab.dateRaw || new Date().toISOString().split('T')[0];
+    document.getElementById('client').value = collab.client || '';
+    document.getElementById('adresse').value = 'NC';
+    document.getElementById('contact').value = collab.coordonnees || '';
+
+    // Pré-remplir les prestations
+    prestations = [];
+    counter = 0;
+    collab.prestations.forEach(p => {
+      prestations.push({
+        id: ++counter,
+        tplId: 'libre',
+        vals: { desc: p.description },
+        prix: p.prix
+      });
+    });
+
+    fermerModal();
+    render();
+
+    // Afficher le badge
+    document.getElementById('importBadge').classList.add('visible');
+
+    // Scroll vers le formulaire
+    document.getElementById('mainForm').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function resetImport() {
+    collabImportee = null;
+    document.getElementById('importBadge').classList.remove('visible');
+  }
+
+  function fermerModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function fermerModalSiDehors(e) {
+    if (e.target === document.getElementById('modalOverlay')) fermerModal();
+  }
+
+  // ============================================================
+  // FORMULAIRE
+  // ============================================================
 
   function addPrestation() {
     prestations.push({ id: ++counter, tplId: "musique", vals: {}, prix: "" });
@@ -556,7 +842,10 @@
       prestations: prestations.map(p => ({
         description: getPreview(p),
         prix: parseFloat(p.prix) || 0
-      }))
+      })),
+      // Si collab importée, on passe les infos pour reporter le numéro de facture
+      rowIndex: collabImportee ? collabImportee.rowIndex : undefined,
+      sheetName: collabImportee ? collabImportee.sheetName : undefined
     };
 
     fetch(WEBAPP_URL, {
@@ -571,6 +860,7 @@
         document.getElementById("successSub").innerHTML =
           "PDF généré et archivé dans Drive." +
           (envoyerEmail ? "<br>Email envoyé à ta fille ✓" : "") +
+          (collabImportee ? "<br>Numéro reporté dans le tableau ✓" : "") +
           "<br>Le modèle est prêt pour la prochaine.";
         document.getElementById("mainForm").style.display = "none";
         document.getElementById("successScreen").style.display = "flex";
@@ -588,10 +878,12 @@
 
   function resetForm() {
     prestations = []; counter = 0;
+    collabImportee = null;
     document.getElementById("client").value = "";
     document.getElementById("adresse").value = "";
     document.getElementById("contact").value = "";
     document.getElementById("envoyerEmail").checked = false;
+    document.getElementById("importBadge").classList.remove("visible");
     document.getElementById("mainForm").style.display = "flex";
     document.getElementById("successScreen").style.display = "none";
     document.querySelector(".btn-cta").disabled = false;
