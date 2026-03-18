@@ -381,8 +381,8 @@
     document.getElementById('dateFacture').value = c.dateRaw || new Date().toISOString().split('T')[0];
     document.getElementById('client').value = c.client || '';
     var coordParts = c.coordonnees ? String(c.coordonnees).split('\n') : [];
-document.getElementById('adresse').value = coordParts[0] || 'NC';
-document.getElementById('contact').value = coordParts[1] || '';
+document.getElementById('adresse').value = c.adresseClient || 'NC';
+document.getElementById('contact').value = c.contactClient || '';
     prestations = []; counter = 0;
     c.prestations.forEach(p => prestations.push({ id: ++counter, tplId: 'libre', vals: { desc: p.description }, prix: p.prix }));
     fermerModal('modalCollabs');
