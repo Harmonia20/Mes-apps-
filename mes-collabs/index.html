@@ -42,7 +42,6 @@
     }
     .app { width: 100%; max-width: 430px; display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* HEADER */
     .header {
       background: linear-gradient(135deg, #db2777 0%, #a855f7 60%, #7c3aed 100%);
       padding: 52px 22px 24px;
@@ -58,11 +57,9 @@
     .tab { flex:1; padding:9px 0; text-align:center; font-size:13px; font-weight:700; color:rgba(255,255,255,0.65); cursor:pointer; border-radius:11px; transition:all 0.22s; font-family:'DM Sans',sans-serif; border:none; background:none; }
     .tab.active { background:#fff; color:var(--rose-deep); }
 
-    /* BODY */
     .body { padding:20px 18px; display:flex; flex-direction:column; gap:14px; flex:1; }
     .section-label { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.2px; color:var(--rose-deep); text-transform:uppercase; }
 
-    /* FIELDS */
     .field-wrap { display:flex; flex-direction:column; gap:5px; }
     .field-label { font-size:12px; font-weight:600; color:var(--text-soft); }
     .field-required { color:var(--rose-deep); margin-left:2px; }
@@ -80,30 +77,24 @@
     .preview-pill { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border-radius:10px; padding:10px 12px; font-size:12px; color:#6b21a8; line-height:1.5; min-height:36px; }
     .preview-pill.empty { color:#c4b5fd; font-style:italic; }
 
-    /* TYPE REVENU */
     .type-toggle { display:flex; gap:8px; }
     .type-btn { flex:1; padding:9px 0; text-align:center; font-size:12px; font-weight:700; border-radius:10px; border:1.5px solid var(--border); background:var(--white); color:var(--text-soft); cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.18s; }
     .type-btn.active { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border-color:var(--violet); color:var(--violet-deep); }
 
-    /* DIVIDER */
     .divider { height:1px; background:linear-gradient(90deg,var(--rose-mid),var(--violet-mid),var(--rose-mid)); }
 
-    /* MONTANT */
     .montant-row { display:flex; align-items:center; gap:8px; }
     .montant-prefix { font-size:14px; font-weight:700; color:var(--text-soft); white-space:nowrap; }
     .montant-input { flex:1; padding:11px 14px; font-size:16px; font-weight:700; border:1.5px solid var(--border); border-radius:var(--radius-input); background:var(--white); color:var(--violet-deep); font-family:'DM Sans',sans-serif; text-align:right; -webkit-appearance:none; }
     .montant-input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgba(168,85,247,0.12); }
 
-    /* PRODUIT */
     .produit-block { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border:1.5px solid var(--violet-mid); border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:10px; }
     .produit-block .produit-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:var(--violet-deep); text-transform:uppercase; letter-spacing:0.8px; }
 
-    /* MAIL */
     .mail-block { background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:8px; }
     .mail-block .mail-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:#0284c7; text-transform:uppercase; letter-spacing:0.8px; }
     .mail-block .mail-sub { font-size:11px; color:#64748b; line-height:1.4; }
 
-    /* BANDEAU ÉDITION */
     .edit-banner {
       background: linear-gradient(135deg, #fef3c7, #fde68a);
       border: 1.5px solid #fcd34d;
@@ -129,22 +120,34 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    /* ERROR / LOADING */
+    /* Bouton supprimer */
+    .btn-supprimer {
+      width: 100%;
+      padding: 14px;
+      background: #fff0f3;
+      border: 1.5px solid #fecdd3;
+      border-radius: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--danger);
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .btn-supprimer:active { background: #ffe4e6; }
+
     #errorMsg { display:none; background:#fff0f3; border:1px solid #fecdd3; border-radius:10px; padding:10px 14px; font-size:13px; color:var(--danger); text-align:center; }
     #loadingMsg { display:none; text-align:center; padding:10px; font-size:13px; color:var(--violet); font-weight:600; }
 
-    /* CTA */
     .btn-cta { width:100%; padding:16px; background:linear-gradient(135deg,var(--rose-deep),var(--violet) 60%,var(--violet-deep)); color:#fff; border:none; border-radius:16px; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; cursor:pointer; box-shadow:0 4px 20px rgba(168,85,247,0.35); transition:opacity 0.18s,transform 0.15s; letter-spacing:0.3px; }
     .btn-cta:active { opacity:0.88; transform:scale(0.99); }
     .btn-cta:disabled { opacity:0.55; cursor:not-allowed; }
 
-    /* SUCCESS */
     #successScreen { display:none; padding:40px 24px; flex-direction:column; align-items:center; gap:14px; text-align:center; background:linear-gradient(160deg,var(--rose-light) 0%,var(--violet-light) 100%); min-height:400px; justify-content:center; }
     .success-circle { width:80px; height:80px; background:linear-gradient(135deg,var(--rose-deep),var(--violet)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; color:white; }
     .success-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--rose-deep); }
     .success-sub { font-size:13px; color:var(--text-soft); line-height:1.6; }
 
-    /* MES COLLABS */
     .collabs-header { display:flex; justify-content:space-between; align-items:center; }
     #loadingCollabs { display:none; text-align:center; padding:20px; font-size:13px; color:var(--violet); font-weight:600; }
     .collab-card { border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:7px; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s; }
@@ -202,9 +205,17 @@
         <div class="field-label">Client / marque <span class="field-required">*</span></div>
         <input class="field-input" type="text" id="client" placeholder="ex: Sephora, SHEIN...">
       </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Coordonnées</div>
+
       <div class="field-wrap">
-        <div class="field-label">Coordonnées du client</div>
-        <input class="field-input" type="text" id="coordonnees" placeholder="email ou téléphone">
+        <div class="field-label">Adresse</div>
+        <input class="field-input" type="text" id="adresse" placeholder="ex: 12 rue de la Paix, 75001 Paris — ou NC">
+      </div>
+      <div class="field-wrap">
+        <div class="field-label">Contact</div>
+        <input class="field-input" type="text" id="contact" placeholder="ex: contact@nike.fr ou 06 12 34 56 78">
       </div>
 
       <div class="divider"></div>
@@ -289,6 +300,8 @@
       <div id="errorMsg"></div>
       <div id="loadingMsg">⏳ Enregistrement en cours...</div>
       <button class="btn-cta" id="btnSubmit" onclick="submitCollab()">✨ Enregistrer la collab</button>
+      <button class="btn-supprimer" id="btnSupprimer" style="display:none;" onclick="supprimerCollab()">🗑️ Supprimer cette collab</button>
+
     </div>
 
     <div id="successScreen">
@@ -317,7 +330,6 @@
   let modeEdition = false;
   let collabEnCours = null;
 
-  // ── Tabs
   function showTab(tab) {
     document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='form')||(i===1&&tab==='collabs')));
     document.getElementById('formView').style.display = tab === 'form' ? 'flex' : 'none';
@@ -325,7 +337,6 @@
     if (tab === 'collabs') chargerCollabs();
   }
 
-  // ── Type de contenu
   function onTypeContenuChange() {
     const val = document.getElementById('typeContenu').value;
     document.getElementById('fields-musique').style.display = val === 'musique' ? 'flex' : 'none';
@@ -355,7 +366,6 @@
 
   function getDescription() { return updatePreview(); }
 
-  // ── Type de revenu
   let typeRevenu = 'remuneration';
   function setType(t) {
     typeRevenu = t;
@@ -364,14 +374,14 @@
     document.getElementById('block-produit').style.display = (t==='produit'||t==='les-deux') ? 'flex' : 'none';
   }
 
-  // ── Ouvrir une collab en édition
   function ouvrirEdition(c) {
     modeEdition = true;
     collabEnCours = c;
 
     document.getElementById('dateCollab').value = c.dateRaw || '';
     document.getElementById('client').value = c.client || '';
-    document.getElementById('coordonnees').value = c.coordonnees || '';
+    document.getElementById('adresse').value = c.adresse || '';
+    document.getElementById('contact').value = c.contact || '';
     document.getElementById('lienVideo').value = c.lienVideo || '';
     document.getElementById('publieLe').value = c.publieLeRaw || '';
     document.getElementById('mailCollab').value = c.mailCollab || '';
@@ -383,13 +393,13 @@
     document.getElementById('produitRecu').value = c.produitRecu || '';
     document.getElementById('valeurEstim').value = c.valeurEstim || '';
 
-    // Description en mode "autre" avec le texte existant
     document.getElementById('typeContenu').value = 'autre';
     document.getElementById('descAutre').value = c.description || '';
     onTypeContenuChange();
 
     document.getElementById('editBanner').style.display = 'flex';
     document.getElementById('btnSubmit').textContent = '💾 Mettre à jour la collab';
+    document.getElementById('btnSupprimer').style.display = 'block';
     document.getElementById('formContent').style.display = 'flex';
     document.getElementById('successScreen').style.display = 'none';
     showTab('form');
@@ -401,14 +411,48 @@
     showTab('collabs');
   }
 
-  // ── Error
+  function supprimerCollab() {
+    if (!collabEnCours) return;
+    if (!confirm('Supprimer la collab avec ' + collabEnCours.client + ' ? Cette action est irréversible.')) return;
+
+    document.getElementById('loadingMsg').style.display = 'block';
+    document.getElementById('btnSubmit').disabled = true;
+    document.getElementById('btnSupprimer').disabled = true;
+
+    fetch(WEBAPP_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'deleteCollab',
+        rowIndex: collabEnCours.rowIndex,
+        sheetName: collabEnCours.sheetName
+      })
+    })
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('loadingMsg').style.display = 'none';
+        if (data.success) {
+          resetForm();
+          showTab('collabs');
+        } else {
+          showError('Erreur : ' + (data.error || 'Impossible de supprimer'));
+          document.getElementById('btnSubmit').disabled = false;
+          document.getElementById('btnSupprimer').disabled = false;
+        }
+      })
+      .catch(() => {
+        document.getElementById('loadingMsg').style.display = 'none';
+        showError('Impossible de contacter le serveur.');
+        document.getElementById('btnSubmit').disabled = false;
+        document.getElementById('btnSupprimer').disabled = false;
+      });
+  }
+
   function showError(msg) {
     const el = document.getElementById('errorMsg');
     el.textContent = msg; el.style.display = 'block';
     setTimeout(() => { el.style.display = 'none'; }, 4000);
   }
 
-  // ── Submit
   function submitCollab() {
     const client = document.getElementById('client').value.trim();
     const dateCollab = document.getElementById('dateCollab').value;
@@ -446,10 +490,11 @@
       valeurEstim:  (typeRevenu === 'produit'       || typeRevenu === 'les-deux') ? parseFloat(valeurEstim) || 0 : '',
       lienVideo:    document.getElementById('lienVideo').value.trim(),
       publieLe:     document.getElementById('publieLe').value,
-      coordonnees:  document.getElementById('coordonnees').value.trim(),
+      adresse:      document.getElementById('adresse').value.trim(),
+      contact:      document.getElementById('contact').value.trim(),
       mailCollab:   document.getElementById('mailCollab').value.trim(),
     };
-console.log('payload envoyé:', JSON.stringify(payload));
+
     fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
       .then(r => r.json())
       .then(data => {
@@ -478,11 +523,10 @@ console.log('payload envoyé:', JSON.stringify(payload));
       });
   }
 
-  // ── Reset
   function resetForm() {
     modeEdition = false;
     collabEnCours = null;
-    ['client','coordonnees','remuneration','produitRecu','valeurEstim','lienVideo','publieLe','mailCollab','titreMusique','artisteMusique','descAutre'].forEach(id => document.getElementById(id).value = '');
+    ['client','adresse','contact','remuneration','produitRecu','valeurEstim','lienVideo','publieLe','mailCollab','titreMusique','artisteMusique','descAutre'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('typeContenu').value = '';
     document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
     document.getElementById('fields-musique').style.display = 'none';
@@ -490,13 +534,14 @@ console.log('payload envoyé:', JSON.stringify(payload));
     document.getElementById('previewWrap').style.display = 'none';
     document.getElementById('editBanner').style.display = 'none';
     document.getElementById('btnSubmit').textContent = '✨ Enregistrer la collab';
+    document.getElementById('btnSupprimer').style.display = 'none';
+    document.getElementById('btnSupprimer').disabled = false;
     setType('remuneration');
     document.getElementById('formContent').style.display = 'flex';
     document.getElementById('successScreen').style.display = 'none';
     document.getElementById('btnSubmit').disabled = false;
   }
 
-  // ── Mes collabs
   function chargerCollabs() {
     document.getElementById('loadingCollabs').style.display = 'block';
     document.getElementById('collabsList').innerHTML = '';
