@@ -62,7 +62,6 @@
     textarea.field-input { resize: none; height: 70px; line-height: 1.5; }
     .divider { height: 1px; background: linear-gradient(90deg, #e0f2fe, #c7d2fe, #e0f2fe); }
 
-    /* Import */
     .btn-import {
       width: 100%; padding: 13px;
       background: linear-gradient(135deg, #f0f9ff, #ede9fe);
@@ -83,7 +82,6 @@
     .badge-btn.fiche { color: #0891b2; }
     .badge-btn.reset { color: #f43f5e; }
 
-    /* Modals */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.45); z-index: 100;
@@ -99,7 +97,6 @@
     .modal-title { font-size: 15px; font-weight: 700; color: #0284c7; }
     .modal-sub { font-size: 12px; color: #94a3b8; margin-top: -8px; }
 
-    /* Cartes collab */
     .collab-card { border: 1.5px solid #bae6fd; border-radius: 14px; padding: 13px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; }
     .collab-card.ok { background: #f0f9ff; }
     .collab-card.warning { background: #fffbeb; border-color: #fcd34d; }
@@ -114,7 +111,6 @@
     .empty-collabs { text-align: center; padding: 24px; font-size: 13px; color: #94a3b8; }
     .btn-modal-close { padding: 12px; background: #f1f5f9; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; font-family: inherit; }
 
-    /* Fiche */
     .fiche-section { display: flex; flex-direction: column; gap: 8px; }
     .fiche-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; background: #f8fafc; border-radius: 8px; }
     .fiche-key { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -122,13 +118,11 @@
     .fiche-val.missing { color: #f43f5e; font-style: italic; }
     .fiche-val a { color: #0891b2; text-decoration: underline; }
 
-    /* Piocher */
     .piocher-list { display: flex; flex-direction: column; gap: 8px; }
     .piocher-item { padding: 10px 13px; background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 10px; cursor: pointer; font-size: 13px; color: #0284c7; font-weight: 600; line-height: 1.4; }
     .piocher-item:active { background: #e0f2fe; }
     .piocher-key { font-size: 10px; color: #94a3b8; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
 
-    /* Prestations */
     .prestation-card { background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
     .prestation-header { display: flex; justify-content: space-between; align-items: center; }
     .prestation-num { font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -145,22 +139,28 @@
     .total-label { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500; }
     .total-amount { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
 
-    .checkbox-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; cursor: pointer; }
-    .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: #0891b2; cursor: pointer; }
-    .checkbox-label { font-size: 13px; font-weight: 600; color: #166534; line-height: 1.4; }
-    .checkbox-sub { font-size: 11px; color: #4ade80; margin-top: 1px; }
-
     .btn-cta { width: 100%; padding: 16px; background: linear-gradient(135deg, #0ea5e9, #0891b2 50%, #6366f1); color: #fff; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(8,145,178,0.35); }
     .btn-cta:active { opacity: 0.88; }
+    .btn-cta:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-secondary { width: 100%; padding: 14px; background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 14px; font-size: 14px; font-weight: 700; color: #0284c7; cursor: pointer; font-family: inherit; }
+    .btn-secondary:active { opacity: 0.88; }
+    .btn-danger { width: 100%; padding: 14px; background: #fff0f3; border: 1.5px solid #fecdd3; border-radius: 14px; font-size: 14px; font-weight: 700; color: #f43f5e; cursor: pointer; font-family: inherit; }
 
-    #successScreen { display: none; padding: 40px 24px; flex-direction: column; align-items: center; gap: 14px; text-align: center; background: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 100%); min-height: 400px; justify-content: center; }
+    #successScreen {
+      display: none; padding: 40px 24px;
+      flex-direction: column; align-items: center; gap: 14px;
+      text-align: center;
+      background: linear-gradient(160deg, #e0f2fe 0%, #ede9fe 100%);
+      min-height: 400px; justify-content: center;
+    }
     .success-circle { width: 80px; height: 80px; background: linear-gradient(135deg, #0ea5e9, #6366f1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white; }
     .success-title { font-size: 22px; font-weight: 700; color: #0284c7; }
     .success-num { font-size: 14px; color: #6366f1; font-weight: 600; }
-    .success-sub { font-size: 13px; color: #64748b; line-height: 1.6; }
+    .success-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 8px; }
 
     #loadingMsg, #loadingCollabs { display: none; text-align: center; padding: 10px; font-size: 13px; color: #0891b2; font-weight: 500; }
     #errorMsg { display: none; background: #fff0f3; border: 1px solid #fecdd3; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #f43f5e; text-align: center; }
+    #emailSentMsg { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #166534; text-align: center; }
   </style>
 </head>
 <body>
@@ -230,14 +230,6 @@
       <span class="total-amount" id="totalDisplay">0,00 €</span>
     </div>
 
-    <label class="checkbox-row">
-      <input type="checkbox" id="envoyerEmail">
-      <div>
-        <div class="checkbox-label">Envoyer la facture par email</div>
-        <div class="checkbox-sub">Déclenche l'envoi automatique à ta fille</div>
-      </div>
-    </label>
-
     <div id="errorMsg"></div>
     <div id="loadingMsg">⏳ Création en cours...</div>
     <button class="btn-cta" onclick="submitFacture()">⚡ Créer la facture</button>
@@ -247,8 +239,12 @@
     <div class="success-circle">✓</div>
     <div class="success-title">Facture créée !</div>
     <div class="success-num" id="successNum"></div>
-    <div class="success-sub" id="successSub"></div>
-    <button class="btn-cta" style="margin-top:12px" onclick="resetForm()">+ Nouvelle facture</button>
+    <div class="success-actions">
+      <button class="btn-secondary" id="btnVoirPdf" onclick="voirPdf()">👁️ Voir le PDF</button>
+      <button class="btn-cta" id="btnEnvoyerEmail" onclick="envoyerEmail()">✉️ Envoyer par email</button>
+      <div id="emailSentMsg">✅ Email envoyé !</div>
+      <button class="btn-danger" onclick="resetForm()">+ Nouvelle facture</button>
+    </div>
   </div>
 </div>
 
@@ -321,13 +317,16 @@
   let collabImportee = null;
   let piocherCible = null, piocherPrestationId = null, piocherPrestationKey = null;
   let piocherOptions = [];
+  let dernierePdfUrl = null;
+  let derniereFactureClient = null;
+  let derniereFactureNumero = null;
 
   // Modals
   function fermerModal(id) { document.getElementById(id).classList.remove('open'); }
   function ouvrirModal(id) { document.getElementById(id).classList.add('open'); }
   function fermerModalSiDehors(e, id) { if (e.target === document.getElementById(id)) fermerModal(id); }
 
-  // ── Collabs
+  // Collabs
   function ouvrirModalCollabs() {
     ouvrirModal('modalCollabs');
     document.getElementById('collabsList').innerHTML = '';
@@ -380,9 +379,8 @@
     collabImportee = c;
     document.getElementById('dateFacture').value = c.dateRaw || new Date().toISOString().split('T')[0];
     document.getElementById('client').value = c.client || '';
-    var coordParts = c.coordonnees ? String(c.coordonnees).split('\n') : [];
-document.getElementById('adresse').value = c.adresseClient || 'NC';
-document.getElementById('contact').value = c.contactClient || '';
+    document.getElementById('adresse').value = c.adresseClient || 'NC';
+    document.getElementById('contact').value = c.contactClient || '';
     prestations = []; counter = 0;
     c.prestations.forEach(p => prestations.push({ id: ++counter, tplId: 'libre', vals: { desc: p.description }, prix: p.prix }));
     fermerModal('modalCollabs');
@@ -398,7 +396,7 @@ document.getElementById('contact').value = c.contactClient || '';
     document.querySelectorAll('.btn-piocher').forEach(b => b.classList.remove('visible'));
   }
 
-  // ── Fiche
+  // Fiche
   function ouvrirFiche() {
     if (!collabImportee) return;
     const c = collabImportee;
@@ -412,8 +410,8 @@ document.getElementById('contact').value = c.contactClient || '';
       { k: 'Valeur estimée',  v: c.valeurEstim ? c.valeurEstim + ' €' : null },
       { k: 'Lien vidéo',      v: c.lienVideo, link: true },
       { k: 'Publié le',       v: c.publieLe },
-      { k: 'Coordonnées',     v: c.coordonnees },
-      { k: 'Date collab',     v: c.date },
+      { k: 'Adresse',         v: c.adresseClient },
+      { k: 'Contact',         v: c.contactClient },
     ];
     document.getElementById('ficheContent').innerHTML = champs.map(ch =>
       `<div class="fiche-row">
@@ -428,12 +426,12 @@ document.getElementById('contact').value = c.contactClient || '';
     ouvrirModal('modalFiche');
   }
 
-  // ── Piocher
+  // Piocher
   const PIOCHER_CONFIG = {
     date:    { label: 'Date', opts: c => [{ l:'Date de la collab', v:c.dateRaw }, { l:'Publié le', v:c.publieLe }] },
     client:  { label: 'Client', opts: c => [{ l:'Client / marque', v:c.client }, { l:'Plateforme', v:c.plateforme }] },
-    adresse: { label: 'Adresse', opts: c => [{ l:'Coordonnées complètes', v:c.coordonnees }, { l:'NC', v:'NC' }] },
-    contact: { label: 'Contact', opts: c => [{ l:'Coordonnées complètes', v:c.coordonnees }, { l:'Client / marque', v:c.client }] },
+    adresse: { label: 'Adresse', opts: c => [{ l:'Adresse', v:c.adresseClient }, { l:'NC', v:'NC' }] },
+    contact: { label: 'Contact', opts: c => [{ l:'Contact', v:c.contactClient }, { l:'Client / marque', v:c.client }] },
   };
 
   function optionsPrestation(c) {
@@ -479,7 +477,7 @@ document.getElementById('contact').value = c.contactClient || '';
     fermerModal('modalPiocher');
   }
 
-  // ── Prestations
+  // Prestations
   function addPrestation() { prestations.push({ id: ++counter, tplId:"musique", vals:{}, prix:"" }); render(); }
   function removePrestation(id) { prestations = prestations.filter(p => p.id !== id); render(); }
 
@@ -544,7 +542,7 @@ document.getElementById('contact').value = c.contactClient || '';
     document.getElementById("totalDisplay").textContent=total.toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
   }
 
-  // ── Envoi
+  // Envoi
   function showError(msg) {
     const el=document.getElementById("errorMsg");
     el.textContent=msg; el.style.display="block";
@@ -554,32 +552,37 @@ document.getElementById('contact').value = c.contactClient || '';
   function submitFacture() {
     const client=document.getElementById("client").value.trim();
     const adresse=document.getElementById("adresse").value.trim();
-    const envoyerEmail=document.getElementById("envoyerEmail").checked;
     if(!client){showError("Renseigne le nom du client.");return;}
     if(!adresse){showError("Renseigne l'adresse ou NC.");return;}
     if(!prestations.length){showError("Ajoute au moins une prestation.");return;}
     if(prestations.some(p=>!getPreview(p))){showError("Une prestation est incomplète.");return;}
+
     document.getElementById("loadingMsg").style.display="block";
     document.querySelector(".btn-cta").disabled=true;
+
     const payload={
       client, adresse,
       contact: document.getElementById("contact").value.trim(),
-      envoyerEmail,
       dateFacture: document.getElementById("dateFacture").value,
       prestations: prestations.map(p=>({ description:getPreview(p), prix:parseFloat(p.prix)||0 })),
       rowIndex: collabImportee ? collabImportee.rowIndex : undefined,
       sheetName: collabImportee ? collabImportee.sheetName : undefined
     };
+
     fetch(WEBAPP_URL,{method:"POST",body:JSON.stringify(payload)})
       .then(r=>r.json())
       .then(data=>{
         document.getElementById("loadingMsg").style.display="none";
         if(data.success){
+          dernierePdfUrl = data.pdfUrl || null;
+          derniereFactureClient = client;
+          derniereFactureNumero = data.invoiceNumber;
           document.getElementById("successNum").textContent="Facture n° "+data.invoiceNumber;
-          document.getElementById("successSub").innerHTML=
-            "PDF généré et archivé dans Drive."+(envoyerEmail?"<br>Email envoyé ✓":"")+(collabImportee?"<br>Numéro reporté dans le tableau ✓":"")+"<br>Le modèle est prêt pour la prochaine.";
           document.getElementById("mainForm").style.display="none";
           document.getElementById("successScreen").style.display="flex";
+          document.getElementById("emailSentMsg").style.display="none";
+          document.getElementById("btnEnvoyerEmail").disabled=false;
+          document.getElementById("btnEnvoyerEmail").textContent="✉️ Envoyer par email";
         } else {
           showError("Erreur : "+data.error);
           document.querySelector(".btn-cta").disabled=false;
@@ -592,21 +595,61 @@ document.getElementById('contact').value = c.contactClient || '';
       });
   }
 
+  function voirPdf() {
+    if (dernierePdfUrl) {
+      window.open(dernierePdfUrl, '_blank');
+    } else {
+      showError("URL du PDF non disponible.");
+    }
+  }
+
+  function envoyerEmail() {
+    if (!derniereFactureNumero) return;
+    document.getElementById("btnEnvoyerEmail").disabled = true;
+    document.getElementById("btnEnvoyerEmail").textContent = "⏳ Envoi en cours...";
+
+    fetch(WEBAPP_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "envoyerEmailFacture",
+        invoiceNumber: derniereFactureNumero,
+        client: derniereFactureClient
+      })
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById("btnEnvoyerEmail").style.display = "none";
+          document.getElementById("emailSentMsg").style.display = "block";
+        } else {
+          showError("Erreur envoi email : " + (data.error || ''));
+          document.getElementById("btnEnvoyerEmail").disabled = false;
+          document.getElementById("btnEnvoyerEmail").textContent = "✉️ Envoyer par email";
+        }
+      })
+      .catch(() => {
+        showError("Impossible de contacter le script.");
+        document.getElementById("btnEnvoyerEmail").disabled = false;
+        document.getElementById("btnEnvoyerEmail").textContent = "✉️ Envoyer par email";
+      });
+  }
+
   function resetForm() {
     prestations=[]; counter=0; collabImportee=null;
+    dernierePdfUrl=null; derniereFactureClient=null; derniereFactureNumero=null;
     document.getElementById("client").value="";
     document.getElementById("adresse").value="";
     document.getElementById("contact").value="";
-    document.getElementById("envoyerEmail").checked=false;
     document.getElementById("importBadge").classList.remove("visible");
     document.querySelectorAll('.btn-piocher').forEach(b=>b.classList.remove('visible'));
     document.getElementById("mainForm").style.display="flex";
     document.getElementById("successScreen").style.display="none";
+    document.getElementById("btnEnvoyerEmail").style.display="block";
     document.querySelector(".btn-cta").disabled=false;
     render();
   }
 
-  document.getElementById("dateFacture").value=new Date().toISOString().split("T")[0];
+  document.getElementById("dateFacture").value=new Date().toISOString().split('T')[0];
   addPrestation();
 </script>
 </body>
