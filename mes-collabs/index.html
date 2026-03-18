@@ -21,7 +21,6 @@
       --violet-deep: #7c3aed;
       --violet-light:#f3e8ff;
       --violet-mid:  #e9d5ff;
-      --peach:       #fb923c;
       --bg:          #fff5fb;
       --white:       #ffffff;
       --text:        #1a0a12;
@@ -32,7 +31,6 @@
       --danger:      #ef4444;
       --radius-card: 20px;
       --radius-input:12px;
-      --shadow:      0 8px 32px rgba(244,114,182,0.18);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -177,8 +175,29 @@
       border-color: var(--violet);
       box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
     }
-    .field-textarea { resize: none; height: 80px; line-height: 1.5; }
-    .field-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a855f7' d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
+    .field-textarea { resize: none; line-height: 1.5; }
+    .field-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a855f7' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 36px;
+    }
+
+    /* ── DESCRIPTION TEMPLATE ── */
+    .desc-fields { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+
+    /* ── PREVIEW ── */
+    .preview-pill {
+      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #6b21a8;
+      line-height: 1.5;
+      min-height: 36px;
+    }
+    .preview-pill.empty { color: #c4b5fd; font-style: italic; }
 
     /* ── TYPE REVENU TOGGLE ── */
     .type-toggle {
@@ -234,6 +253,7 @@
       color: var(--violet-deep);
       font-family: 'DM Sans', sans-serif;
       text-align: right;
+      -webkit-appearance: none;
     }
     .montant-input:focus {
       outline: none;
@@ -258,6 +278,30 @@
       color: var(--violet-deep);
       text-transform: uppercase;
       letter-spacing: 0.8px;
+    }
+
+    /* ── MAIL BLOCK ── */
+    .mail-block {
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: var(--radius-card);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mail-block .mail-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .mail-block .mail-sub {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.4;
     }
 
     /* ── ERROR / LOADING ── */
@@ -331,16 +375,10 @@
     }
 
     /* ── MES COLLABS ── */
-    #collabsView { display: none; }
     .collabs-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .collabs-count {
-      font-size: 12px;
-      color: var(--text-soft);
-      font-weight: 500;
     }
     #loadingCollabs {
       display: none;
@@ -356,10 +394,6 @@
       display: flex;
       flex-direction: column;
       gap: 7px;
-    }
-    .collab-card.facturee {
-      background: #f0fdf4;
-      border: 1.5px solid #bbf7d0;
     }
     .collab-card.en-attente {
       background: var(--rose-light);
@@ -390,7 +424,6 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
-    .collab-card.facturee .collab-status { background: #d1fae5; color: #065f46; }
     .collab-card.en-attente .collab-status { background: var(--rose-mid); color: var(--rose-deep); }
     .collab-card.incomplete .collab-status { background: #fef3c7; color: #92400e; }
     .collab-desc {
@@ -428,15 +461,6 @@
       border-radius: 6px;
       padding: 4px 8px;
     }
-    .collab-invoice {
-      font-size: 11px;
-      font-weight: 600;
-      color: #065f46;
-      background: #d1fae5;
-      border-radius: 6px;
-      padding: 4px 8px;
-      display: inline-block;
-    }
     .empty-collabs {
       text-align: center;
       padding: 32px 16px;
@@ -466,7 +490,7 @@
       <div class="logo">✨</div>
       <div class="app-title">Mes Collabs</div>
     </div>
-    <div class="app-sub">Gère tes collabs facilement</div>
+    <div class="app-sub">Nouvelle facture • @naia_la_star</div>
     <div class="tabs">
       <button class="tab active" onclick="showTab('form')">➕ Nouvelle collab</button>
       <button class="tab" onclick="showTab('collabs')">📋 Mes collabs</button>
@@ -475,92 +499,121 @@
 
   <!-- ══ FORMULAIRE NOUVELLE COLLAB ══ -->
   <div class="body" id="formView">
-    <div id="formContent">
-      <div style="display:flex;flex-direction:column;gap:14px;">
+    <div id="formContent" style="display:flex;flex-direction:column;gap:14px;">
 
-        <div class="section-label">Infos générales</div>
+      <div class="section-label">Infos générales</div>
 
+      <div class="field-wrap">
+        <div class="field-label">Date de la collab <span class="field-required">*</span></div>
+        <input class="field-input" type="date" id="dateCollab">
+      </div>
+
+      <div class="field-wrap">
+        <div class="field-label">Client / marque <span class="field-required">*</span></div>
+        <input class="field-input" type="text" id="client" placeholder="ex: Sephora, SHEIN...">
+      </div>
+
+      <div class="field-wrap">
+        <div class="field-label">Coordonnées du client</div>
+        <input class="field-input" type="text" id="coordonnees" placeholder="email ou téléphone">
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Description du contenu <span style="font-size:10px;color:#c4b5fd;text-transform:none;letter-spacing:0;">*</span></div>
+
+      <div class="field-wrap">
+        <div class="field-label">Type de contenu <span class="field-required">*</span></div>
+        <select class="field-select" id="typeContenu" onchange="onTypeContenuChange()">
+          <option value="">— Choisir —</option>
+          <option value="musique">🎵 Utilisation d'une chanson</option>
+          <option value="sponsorise">🎬 Contenu sponsorisé</option>
+          <option value="autre">✏️ Autre</option>
+        </select>
+      </div>
+
+      <!-- Champs chanson -->
+      <div id="fields-musique" class="desc-fields" style="display:none;">
         <div class="field-wrap">
-          <div class="field-label">Date de la collab <span class="field-required">*</span></div>
-          <input class="field-input" type="date" id="dateCollab">
+          <div class="field-label">Titre de la chanson</div>
+          <input class="field-input" type="text" id="titreMusique" placeholder="ex: Flowers" oninput="updatePreview()">
         </div>
-
         <div class="field-wrap">
-          <div class="field-label">Client / marque <span class="field-required">*</span></div>
-          <input class="field-input" type="text" id="client" placeholder="ex: Sephora, SHEIN...">
+          <div class="field-label">Artiste</div>
+          <input class="field-input" type="text" id="artisteMusique" placeholder="ex: Miley Cyrus" oninput="updatePreview()">
         </div>
+      </div>
 
+      <!-- Champs sponsorisé : rien de plus, client suffit -->
+
+      <!-- Champ libre -->
+      <div id="fields-autre" class="desc-fields" style="display:none;">
         <div class="field-wrap">
-          <div class="field-label">Coordonnées du client</div>
-          <input class="field-input" type="text" id="coordonnees" placeholder="email ou téléphone">
+          <div class="field-label">Description libre</div>
+          <textarea class="field-textarea" id="descAutre" placeholder="Décris la collab..." style="height:70px;" oninput="updatePreview()"></textarea>
         </div>
+      </div>
 
+      <!-- Aperçu -->
+      <div id="previewWrap" style="display:none;">
+        <div class="preview-pill empty" id="previewDesc">Aperçu automatique...</div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Type de revenu</div>
+
+      <div class="type-toggle">
+        <button class="type-btn active" id="btn-remuneration" onclick="setType('remuneration')">💰 Rémunération</button>
+        <button class="type-btn" id="btn-produit" onclick="setType('produit')">📦 Produit reçu</button>
+        <button class="type-btn" id="btn-les-deux" onclick="setType('les-deux')">🎁 Les deux</button>
+      </div>
+
+      <div id="block-remuneration">
+        <div class="montant-row">
+          <span class="montant-prefix">Montant HT</span>
+          <input class="montant-input" type="number" id="remuneration" min="0" step="0.01" placeholder="0,00">
+          <span class="montant-prefix">€</span>
+        </div>
+      </div>
+
+      <div class="produit-block" id="block-produit" style="display:none;">
+        <div class="produit-title">📦 Produit reçu</div>
         <div class="field-wrap">
-          <div class="field-label">Plateforme</div>
-          <select class="field-select" id="plateforme">
-            <option value="TikTok">TikTok</option>
-            <option value="Instagram">Instagram</option>
-            <option value="YouTube">YouTube</option>
-            <option value="Autre">Autre</option>
-          </select>
+          <div class="field-label">Nom du produit</div>
+          <input class="field-input" type="text" id="produitRecu" placeholder="ex: Palette de maquillage">
         </div>
-
         <div class="field-wrap">
-          <div class="field-label">Description du contenu <span class="field-required">*</span></div>
-          <textarea class="field-textarea" id="description" placeholder="Décris la collab en quelques mots..."></textarea>
-        </div>
-
-        <div class="divider"></div>
-        <div class="section-label">Type de revenu</div>
-
-        <div class="type-toggle">
-          <button class="type-btn active" id="btn-remuneration" onclick="setType('remuneration')">💰 Rémunération</button>
-          <button class="type-btn" id="btn-produit" onclick="setType('produit')">📦 Produit reçu</button>
-          <button class="type-btn" id="btn-les-deux" onclick="setType('les-deux')">🎁 Les deux</button>
-        </div>
-
-        <!-- Rémunération -->
-        <div id="block-remuneration">
+          <div class="field-label">Valeur estimée</div>
           <div class="montant-row">
-            <span class="montant-prefix">Montant HT</span>
-            <input class="montant-input" type="number" id="remuneration" min="0" step="0.01" placeholder="0,00">
+            <input class="montant-input" type="number" id="valeurEstim" min="0" step="0.01" placeholder="0,00" style="flex:1;">
             <span class="montant-prefix">€</span>
           </div>
         </div>
-
-        <!-- Produit reçu -->
-        <div class="produit-block" id="block-produit" style="display:none;">
-          <div class="produit-title">📦 Produit reçu</div>
-          <div class="field-wrap">
-            <div class="field-label">Nom du produit</div>
-            <input class="field-input" type="text" id="produitRecu" placeholder="ex: Palette de maquillage">
-          </div>
-          <div class="field-wrap">
-            <div class="field-label">Valeur estimée</div>
-            <div class="montant-row">
-              <input class="montant-input" type="number" id="valeurEstim" min="0" step="0.01" placeholder="0,00" style="flex:1;">
-              <span class="montant-prefix">€</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-        <div class="section-label">Contenu publié <span style="font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;">(à remplir si dispo)</span></div>
-
-        <div class="field-wrap">
-          <div class="field-label">Lien de la vidéo</div>
-          <input class="field-input" type="url" id="lienVideo" placeholder="https://...">
-        </div>
-
-        <div class="field-wrap">
-          <div class="field-label">Date de publication</div>
-          <input class="field-input" type="date" id="publieLe">
-        </div>
-
-        <div id="errorMsg"></div>
-        <div id="loadingMsg">⏳ Enregistrement en cours...</div>
-        <button class="btn-cta" onclick="submitCollab()">✨ Enregistrer la collab</button>
       </div>
+
+      <div class="divider"></div>
+      <div class="section-label">Contenu publié <span style="font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;">(si dispo)</span></div>
+
+      <div class="field-wrap">
+        <div class="field-label">Lien de la vidéo</div>
+        <input class="field-input" type="url" id="lienVideo" placeholder="https://...">
+      </div>
+
+      <div class="field-wrap">
+        <div class="field-label">Date de publication</div>
+        <input class="field-input" type="date" id="publieLe">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="mail-block">
+        <div class="mail-title">📧 Copie du mail de collab</div>
+        <div class="mail-sub">Colle ici le mail reçu de la marque — utile en cas de contrôle</div>
+        <textarea class="field-textarea" id="mailCollab" placeholder="Colle le mail ici..." style="height:100px;"></textarea>
+      </div>
+
+      <div id="errorMsg"></div>
+      <div id="loadingMsg">⏳ Enregistrement en cours...</div>
+      <button class="btn-cta" onclick="submitCollab()">✨ Enregistrer la collab</button>
     </div>
 
     <!-- SUCCESS -->
@@ -575,7 +628,7 @@
   <!-- ══ MES COLLABS ══ -->
   <div class="body" id="collabsView" style="display:none;">
     <div class="collabs-header">
-      <div class="section-label">Mes collabs</div>
+      <div class="section-label">Mes collabs en attente</div>
       <button class="btn-refresh" onclick="chargerCollabs()">🔄 Actualiser</button>
     </div>
     <div id="loadingCollabs">⏳ Chargement...</div>
@@ -585,6 +638,7 @@
 
 <script>
   const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUad-ZVTD37C7yT6oKq7977RJdcguWyHKuL7qg8pW5GIbDksTqSX8IrIktuK0zvKB1/exec";
+  const TIKTOK = "@naia_la_star";
 
   // ── Tabs
   function showTab(tab) {
@@ -592,6 +646,44 @@
     document.getElementById('formView').style.display = tab === 'form' ? 'flex' : 'none';
     document.getElementById('collabsView').style.display = tab === 'collabs' ? 'flex' : 'none';
     if (tab === 'collabs') chargerCollabs();
+  }
+
+  // ── Type de contenu
+  function onTypeContenuChange() {
+    const val = document.getElementById('typeContenu').value;
+    document.getElementById('fields-musique').style.display = val === 'musique' ? 'flex' : 'none';
+    document.getElementById('fields-autre').style.display = val === 'autre' ? 'flex' : 'none';
+    document.getElementById('previewWrap').style.display = val ? 'block' : 'none';
+    updatePreview();
+  }
+
+  function updatePreview() {
+    const val = document.getElementById('typeContenu').value;
+    const client = document.getElementById('client').value.trim();
+    const el = document.getElementById('previewDesc');
+    let txt = '';
+
+    if (val === 'musique') {
+      const titre = document.getElementById('titreMusique').value.trim();
+      const artiste = document.getElementById('artisteMusique').value.trim();
+      if (titre && artiste) {
+        txt = `Utilisation de la chanson "${titre}" de ${artiste} pour une vidéo TikTok publiée sur le compte ${TIKTOK}`;
+      }
+    } else if (val === 'sponsorise') {
+      if (client) {
+        txt = `Création et publication d'une vidéo TikTok sponsorisée pour la marque ${client} sur le compte ${TIKTOK}`;
+      }
+    } else if (val === 'autre') {
+      txt = document.getElementById('descAutre').value.trim();
+    }
+
+    el.textContent = txt || 'Aperçu automatique...';
+    el.className = 'preview-pill' + (txt ? '' : ' empty');
+    return txt;
+  }
+
+  function getDescription() {
+    return updatePreview();
   }
 
   // ── Type de revenu
@@ -613,12 +705,14 @@
   // ── Submit
   function submitCollab() {
     const client = document.getElementById('client').value.trim();
-    const description = document.getElementById('description').value.trim();
     const dateCollab = document.getElementById('dateCollab').value;
+    const typeContenu = document.getElementById('typeContenu').value;
+    const description = getDescription();
 
     if (!client) { showError('Le nom du client est obligatoire.'); return; }
-    if (!description) { showError('La description est obligatoire.'); return; }
     if (!dateCollab) { showError('La date de la collab est obligatoire.'); return; }
+    if (!typeContenu) { showError('Choisis un type de contenu.'); return; }
+    if (!description) { showError('La description est incomplète.'); return; }
 
     const remuneration = document.getElementById('remuneration').value;
     const produitRecu = document.getElementById('produitRecu').value.trim();
@@ -638,7 +732,7 @@
       action: 'saveCollab',
       dateCollab,
       typeRevenu,
-      plateforme: document.getElementById('plateforme').value,
+      plateforme: 'TikTok',
       client,
       description,
       remuneration: (typeRevenu === 'remuneration' || typeRevenu === 'les-deux') ? parseFloat(remuneration) || 0 : '',
@@ -647,6 +741,7 @@
       lienVideo: document.getElementById('lienVideo').value.trim(),
       publieLe: document.getElementById('publieLe').value,
       coordonnees: document.getElementById('coordonnees').value.trim(),
+      mailCollab: document.getElementById('mailCollab').value.trim(),
     };
 
     fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
@@ -659,7 +754,9 @@
           if (!payload.publieLe) manquants.push('date de publication');
           document.getElementById('successSub').innerHTML =
             'Collab avec <strong>' + client + '</strong> enregistrée ✓' +
-            (manquants.length ? '<br><br>⚠️ Pense à compléter : ' + manquants.join(', ') + '<br>Ta mère ne pourra pas facturer sans ces infos !' : '<br><br>Toutes les infos sont remplies — ta mère peut facturer ✓');
+            (manquants.length
+              ? '<br><br>⚠️ Pense à compléter plus tard :<br>' + manquants.join(', ') + '<br><small>Ta mère ne pourra pas facturer sans ces infos !</small>'
+              : '<br><br>✅ Toutes les infos sont remplies —<br>ta mère peut facturer !');
           document.getElementById('formContent').style.display = 'none';
           document.getElementById('successScreen').style.display = 'flex';
         } else {
@@ -677,21 +774,28 @@
   // ── Reset
   function resetForm() {
     document.getElementById('client').value = '';
-    document.getElementById('description').value = '';
     document.getElementById('coordonnees').value = '';
     document.getElementById('remuneration').value = '';
     document.getElementById('produitRecu').value = '';
     document.getElementById('valeurEstim').value = '';
     document.getElementById('lienVideo').value = '';
     document.getElementById('publieLe').value = '';
+    document.getElementById('mailCollab').value = '';
+    document.getElementById('titreMusique').value = '';
+    document.getElementById('artisteMusique').value = '';
+    document.getElementById('descAutre').value = '';
+    document.getElementById('typeContenu').value = '';
     document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
+    document.getElementById('fields-musique').style.display = 'none';
+    document.getElementById('fields-autre').style.display = 'none';
+    document.getElementById('previewWrap').style.display = 'none';
     setType('remuneration');
-    document.getElementById('formContent').style.display = 'block';
+    document.getElementById('formContent').style.display = 'flex';
     document.getElementById('successScreen').style.display = 'none';
     document.querySelector('.btn-cta').disabled = false;
   }
 
-  // ── Mes collabs
+  // ── Mes collabs (non facturées uniquement)
   function chargerCollabs() {
     document.getElementById('loadingCollabs').style.display = 'block';
     document.getElementById('collabsList').innerHTML = '';
@@ -700,7 +804,13 @@
       .then(data => {
         document.getElementById('loadingCollabs').style.display = 'none';
         if (data.success && data.collabs && data.collabs.length > 0) {
-          afficherCollabs(data.collabs);
+          // Filtre côté client : on n'affiche que les non facturées
+          const nonFacturees = data.collabs.filter(c => !c.numeroFacture || c.numeroFacture === '');
+          if (nonFacturees.length > 0) {
+            afficherCollabs(nonFacturees);
+          } else {
+            document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🎉</div>Toutes tes collabs sont facturées !<br>Tu peux en enregistrer une nouvelle.</div>';
+          }
         } else if (data.success) {
           document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🌸</div>Aucune collab pour l\'instant.<br>Commence à enregistrer tes collabs !</div>';
         } else {
@@ -717,18 +827,16 @@
     const container = document.getElementById('collabsList');
     container.innerHTML = '';
     collabs.forEach(c => {
-      const facturee = c.numeroFacture && c.numeroFacture !== '';
       const manquants = [];
       if (!c.lienVideo) manquants.push('lien vidéo');
       if (!c.publieLe) manquants.push('date de publication');
-      const incomplete = !facturee && manquants.length > 0;
-      const statut = facturee ? 'facturee' : incomplete ? 'incomplete' : 'en-attente';
+      const incomplete = manquants.length > 0;
+      const statut = incomplete ? 'incomplete' : 'en-attente';
+      const statusLabel = incomplete ? '⚠️ Infos manquantes' : '⏳ En attente de facturation';
 
       const montant = c.remuneration
         ? parseFloat(c.remuneration).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €'
         : c.valeurEstim ? parseFloat(c.valeurEstim).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' € (produit)' : '—';
-
-      const statusLabel = facturee ? '✓ Facturée' : incomplete ? '⚠️ Infos manquantes' : '⏳ En attente';
 
       const div = document.createElement('div');
       div.className = 'collab-card ' + statut;
@@ -740,11 +848,9 @@
         <div class="collab-desc">${c.description || '—'}</div>
         <div class="collab-meta">
           ${c.date ? `<span class="collab-pill">📅 ${c.date}</span>` : ''}
-          ${c.plateforme ? `<span class="collab-pill">${c.plateforme}</span>` : ''}
           <span class="collab-prix">${montant}</span>
         </div>
         ${incomplete ? `<div class="collab-warning">⚠️ Manquant : ${manquants.join(', ')} — ta mère ne peut pas encore facturer</div>` : ''}
-        ${facturee ? `<div class="collab-invoice">Facture ${c.numeroFacture}</div>` : ''}
       `;
       container.appendChild(div);
     });
@@ -752,6 +858,9 @@
 
   // Init
   document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
+
+  // Mise à jour preview quand le client change (pour le template sponsorisé)
+  document.getElementById('client').addEventListener('input', updatePreview);
 </script>
 </body>
 </html>
