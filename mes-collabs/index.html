@@ -544,7 +544,9 @@
 
   function chargerCollabs() {
     document.getElementById('loadingCollabs').style.display = 'block';
-    document.getElementById('collabsList').innerHTML = '';
+document.getElementById('collabsList').innerHTML = '';
+document.getElementById('btnSubmit').disabled = false;
+document.getElementById('btnSupprimer').disabled = false;
     fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify({ action: 'getCollabsFille' }) })
       .then(r => r.json())
       .then(data => {
