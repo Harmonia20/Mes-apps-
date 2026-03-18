@@ -26,15 +26,11 @@
       --text:        #1a0a12;
       --text-soft:   #7c5572;
       --border:      #f0c0df;
-      --success:     #10b981;
-      --warning:     #f59e0b;
       --danger:      #ef4444;
       --radius-card: 20px;
       --radius-input:12px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
@@ -44,443 +40,133 @@
       align-items: flex-start;
       padding: 0 0 60px;
     }
+    .app { width: 100%; max-width: 430px; display: flex; flex-direction: column; min-height: 100vh; }
 
-    .app {
-      width: 100%;
-      max-width: 430px;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
+    /* HEADER */
     .header {
       background: linear-gradient(135deg, #db2777 0%, #a855f7 60%, #7c3aed 100%);
       padding: 52px 22px 24px;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-    .header::before {
-      content: '';
-      position: absolute;
-      right: -30px; top: -30px;
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-    }
-    .header::after {
-      content: '';
-      position: absolute;
-      left: -20px; bottom: -40px;
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-    }
-    .header-top {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      margin-bottom: 4px;
-    }
-    .logo {
-      width: 38px; height: 38px;
-      background: rgba(255,255,255,0.22);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .app-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.5px;
-    }
-    .app-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.65);
-      margin-left: 49px;
-    }
+    .header::before { content:''; position:absolute; right:-30px; top:-30px; width:140px; height:140px; border-radius:50%; background:rgba(255,255,255,0.08); }
+    .header::after  { content:''; position:absolute; left:-20px; bottom:-40px; width:100px; height:100px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .header-top { display:flex; align-items:center; gap:11px; margin-bottom:4px; }
+    .logo { width:38px; height:38px; background:rgba(255,255,255,0.22); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+    .app-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.5px; }
+    .app-sub { font-size:12px; color:rgba(255,255,255,0.65); margin-left:49px; }
+    .tabs { display:flex; background:rgba(255,255,255,0.15); border-radius:14px; padding:4px; margin-top:16px; position:relative; z-index:1; }
+    .tab { flex:1; padding:9px 0; text-align:center; font-size:13px; font-weight:700; color:rgba(255,255,255,0.65); cursor:pointer; border-radius:11px; transition:all 0.22s; font-family:'DM Sans',sans-serif; border:none; background:none; }
+    .tab.active { background:#fff; color:var(--rose-deep); }
 
-    /* ── TABS ── */
-    .tabs {
-      display: flex;
-      background: rgba(255,255,255,0.15);
-      border-radius: 14px;
-      padding: 4px;
-      margin-top: 16px;
-      position: relative;
-      z-index: 1;
-    }
-    .tab {
-      flex: 1;
-      padding: 9px 0;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.65);
-      cursor: pointer;
-      border-radius: 11px;
-      transition: all 0.22s;
-      font-family: 'DM Sans', sans-serif;
-      border: none;
-      background: none;
-    }
-    .tab.active {
-      background: #fff;
-      color: var(--rose-deep);
-    }
+    /* BODY */
+    .body { padding:20px 18px; display:flex; flex-direction:column; gap:14px; flex:1; }
+    .section-label { font-family:'Syne',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.2px; color:var(--rose-deep); text-transform:uppercase; }
 
-    /* ── BODY ── */
-    .body {
-      padding: 20px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      flex: 1;
-    }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      color: var(--rose-deep);
-      text-transform: uppercase;
-    }
-
-    /* ── FIELD ── */
-    .field-wrap { display: flex; flex-direction: column; gap: 5px; }
-    .field-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-soft);
-    }
-    .field-required { color: var(--rose-deep); margin-left: 2px; }
+    /* FIELDS */
+    .field-wrap { display:flex; flex-direction:column; gap:5px; }
+    .field-label { font-size:12px; font-weight:600; color:var(--text-soft); }
+    .field-required { color:var(--rose-deep); margin-left:2px; }
     .field-input, .field-select, .field-textarea {
-      width: 100%;
-      padding: 11px 14px;
-      font-size: 14px;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-input);
-      background: var(--white);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color 0.18s, box-shadow 0.18s;
-      -webkit-appearance: none;
+      width:100%; padding:11px 14px; font-size:14px;
+      border:1.5px solid var(--border); border-radius:var(--radius-input);
+      background:var(--white); color:var(--text);
+      font-family:'DM Sans',sans-serif; transition:border-color 0.18s, box-shadow 0.18s;
+      -webkit-appearance:none;
     }
-    .field-input:focus, .field-select:focus, .field-textarea:focus {
-      outline: none;
-      border-color: var(--violet);
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
-    }
-    .field-textarea { resize: none; line-height: 1.5; }
-    .field-select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a855f7' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 16px;
-      padding-right: 36px;
-    }
+    .field-input:focus, .field-select:focus, .field-textarea:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgba(168,85,247,0.12); }
+    .field-textarea { resize:none; line-height:1.5; }
+    .field-select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a855f7' d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; background-size:16px; padding-right:36px; }
+    .desc-fields { display:flex; flex-direction:column; gap:10px; margin-top:4px; }
+    .preview-pill { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border-radius:10px; padding:10px 12px; font-size:12px; color:#6b21a8; line-height:1.5; min-height:36px; }
+    .preview-pill.empty { color:#c4b5fd; font-style:italic; }
 
-    /* ── DESCRIPTION TEMPLATE ── */
-    .desc-fields { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    /* TYPE REVENU */
+    .type-toggle { display:flex; gap:8px; }
+    .type-btn { flex:1; padding:9px 0; text-align:center; font-size:12px; font-weight:700; border-radius:10px; border:1.5px solid var(--border); background:var(--white); color:var(--text-soft); cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.18s; }
+    .type-btn.active { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border-color:var(--violet); color:var(--violet-deep); }
 
-    /* ── PREVIEW ── */
-    .preview-pill {
-      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: #6b21a8;
-      line-height: 1.5;
-      min-height: 36px;
-    }
-    .preview-pill.empty { color: #c4b5fd; font-style: italic; }
+    /* DIVIDER */
+    .divider { height:1px; background:linear-gradient(90deg,var(--rose-mid),var(--violet-mid),var(--rose-mid)); }
 
-    /* ── TYPE REVENU TOGGLE ── */
-    .type-toggle {
-      display: flex;
-      gap: 8px;
-    }
-    .type-btn {
-      flex: 1;
-      padding: 9px 0;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
-      background: var(--white);
-      color: var(--text-soft);
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.18s;
-    }
-    .type-btn.active {
-      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
-      border-color: var(--violet);
-      color: var(--violet-deep);
-    }
+    /* MONTANT */
+    .montant-row { display:flex; align-items:center; gap:8px; }
+    .montant-prefix { font-size:14px; font-weight:700; color:var(--text-soft); white-space:nowrap; }
+    .montant-input { flex:1; padding:11px 14px; font-size:16px; font-weight:700; border:1.5px solid var(--border); border-radius:var(--radius-input); background:var(--white); color:var(--violet-deep); font-family:'DM Sans',sans-serif; text-align:right; -webkit-appearance:none; }
+    .montant-input:focus { outline:none; border-color:var(--violet); box-shadow:0 0 0 3px rgba(168,85,247,0.12); }
 
-    /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, var(--rose-mid), var(--violet-mid), var(--rose-mid));
-    }
+    /* PRODUIT */
+    .produit-block { background:linear-gradient(135deg,var(--rose-light),var(--violet-light)); border:1.5px solid var(--violet-mid); border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:10px; }
+    .produit-block .produit-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:var(--violet-deep); text-transform:uppercase; letter-spacing:0.8px; }
 
-    /* ── MONTANT ROW ── */
-    .montant-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .montant-prefix {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-soft);
-      white-space: nowrap;
-    }
-    .montant-input {
-      flex: 1;
-      padding: 11px 14px;
-      font-size: 16px;
-      font-weight: 700;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-input);
-      background: var(--white);
-      color: var(--violet-deep);
-      font-family: 'DM Sans', sans-serif;
-      text-align: right;
-      -webkit-appearance: none;
-    }
-    .montant-input:focus {
-      outline: none;
-      border-color: var(--violet);
-      box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
-    }
+    /* MAIL */
+    .mail-block { background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:8px; }
+    .mail-block .mail-title { font-family:'Syne',sans-serif; font-size:11px; font-weight:700; color:#0284c7; text-transform:uppercase; letter-spacing:0.8px; }
+    .mail-block .mail-sub { font-size:11px; color:#64748b; line-height:1.4; }
 
-    /* ── PRODUIT BLOCK ── */
-    .produit-block {
-      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
-      border: 1.5px solid var(--violet-mid);
-      border-radius: var(--radius-card);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .produit-block .produit-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--violet-deep);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-
-    /* ── MAIL BLOCK ── */
-    .mail-block {
-      background: #f0f9ff;
-      border: 1.5px solid #bae6fd;
-      border-radius: var(--radius-card);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .mail-block .mail-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: #0284c7;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-    .mail-block .mail-sub {
-      font-size: 11px;
-      color: #64748b;
-      line-height: 1.4;
-    }
-
-    /* ── ERROR / LOADING ── */
-    #errorMsg {
-      display: none;
-      background: #fff0f3;
-      border: 1px solid #fecdd3;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: var(--danger);
-      text-align: center;
-    }
-    #loadingMsg {
-      display: none;
-      text-align: center;
-      padding: 10px;
-      font-size: 13px;
-      color: var(--violet);
-      font-weight: 600;
-    }
-
-    /* ── CTA ── */
-    .btn-cta {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--rose-deep), var(--violet) 60%, var(--violet-deep));
-      color: #fff;
-      border: none;
-      border-radius: 16px;
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(168,85,247,0.35);
-      transition: opacity 0.18s, transform 0.15s;
-      letter-spacing: 0.3px;
-    }
-    .btn-cta:active { opacity: 0.88; transform: scale(0.99); }
-    .btn-cta:disabled { opacity: 0.55; cursor: not-allowed; }
-
-    /* ── SUCCESS ── */
-    #successScreen {
-      display: none;
-      padding: 40px 24px;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      text-align: center;
-      background: linear-gradient(160deg, var(--rose-light) 0%, var(--violet-light) 100%);
-      min-height: 400px;
-      justify-content: center;
-    }
-    .success-circle {
-      width: 80px; height: 80px;
-      background: linear-gradient(135deg, var(--rose-deep), var(--violet));
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 32px; color: white;
-    }
-    .success-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--rose-deep);
-    }
-    .success-sub {
-      font-size: 13px;
-      color: var(--text-soft);
-      line-height: 1.6;
-    }
-
-    /* ── MES COLLABS ── */
-    .collabs-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    #loadingCollabs {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      font-size: 13px;
-      color: var(--violet);
-      font-weight: 600;
-    }
-    .collab-card {
-      border-radius: var(--radius-card);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-    .collab-card.en-attente {
-      background: var(--rose-light);
-      border: 1.5px solid var(--rose-mid);
-    }
-    .collab-card.incomplete {
-      background: #fffbeb;
+    /* BANDEAU ÉDITION */
+    .edit-banner {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
       border: 1.5px solid #fcd34d;
-    }
-    .collab-card-top {
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400e;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       gap: 8px;
     }
-    .collab-client {
-      font-family: 'Syne', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .collab-status {
-      font-size: 10px;
-      font-weight: 700;
-      border-radius: 20px;
-      padding: 3px 9px;
-      white-space: nowrap;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-    .collab-card.en-attente .collab-status { background: var(--rose-mid); color: var(--rose-deep); }
-    .collab-card.incomplete .collab-status { background: #fef3c7; color: #92400e; }
-    .collab-desc {
-      font-size: 12px;
-      color: var(--text-soft);
-      line-height: 1.4;
-    }
-    .collab-meta {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 2px;
-    }
-    .collab-pill {
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 20px;
-      padding: 2px 9px;
-      background: var(--white);
-      color: var(--violet);
-      border: 1px solid var(--violet-mid);
-    }
-    .collab-card.incomplete .collab-pill { border-color: #fcd34d; color: #92400e; }
-    .collab-prix {
-      font-family: 'Syne', sans-serif;
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--violet-deep);
-    }
-    .collab-warning {
-      font-size: 11px;
-      font-weight: 600;
-      color: #b45309;
-      background: #fef3c7;
-      border-radius: 6px;
-      padding: 4px 8px;
-    }
-    .empty-collabs {
-      text-align: center;
-      padding: 32px 16px;
-      font-size: 13px;
-      color: var(--text-soft);
-      line-height: 1.7;
-    }
-    .empty-collabs .empty-icon { font-size: 36px; margin-bottom: 8px; }
-    .btn-refresh {
+    .btn-annuler {
+      margin-left: auto;
       background: none;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-soft);
+      border: 1.5px solid #fcd34d;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #92400e;
       cursor: pointer;
       font-family: 'DM Sans', sans-serif;
     }
-    .btn-refresh:active { background: var(--rose-light); }
+
+    /* ERROR / LOADING */
+    #errorMsg { display:none; background:#fff0f3; border:1px solid #fecdd3; border-radius:10px; padding:10px 14px; font-size:13px; color:var(--danger); text-align:center; }
+    #loadingMsg { display:none; text-align:center; padding:10px; font-size:13px; color:var(--violet); font-weight:600; }
+
+    /* CTA */
+    .btn-cta { width:100%; padding:16px; background:linear-gradient(135deg,var(--rose-deep),var(--violet) 60%,var(--violet-deep)); color:#fff; border:none; border-radius:16px; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; cursor:pointer; box-shadow:0 4px 20px rgba(168,85,247,0.35); transition:opacity 0.18s,transform 0.15s; letter-spacing:0.3px; }
+    .btn-cta:active { opacity:0.88; transform:scale(0.99); }
+    .btn-cta:disabled { opacity:0.55; cursor:not-allowed; }
+
+    /* SUCCESS */
+    #successScreen { display:none; padding:40px 24px; flex-direction:column; align-items:center; gap:14px; text-align:center; background:linear-gradient(160deg,var(--rose-light) 0%,var(--violet-light) 100%); min-height:400px; justify-content:center; }
+    .success-circle { width:80px; height:80px; background:linear-gradient(135deg,var(--rose-deep),var(--violet)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; color:white; }
+    .success-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; color:var(--rose-deep); }
+    .success-sub { font-size:13px; color:var(--text-soft); line-height:1.6; }
+
+    /* MES COLLABS */
+    .collabs-header { display:flex; justify-content:space-between; align-items:center; }
+    #loadingCollabs { display:none; text-align:center; padding:20px; font-size:13px; color:var(--violet); font-weight:600; }
+    .collab-card { border-radius:var(--radius-card); padding:14px; display:flex; flex-direction:column; gap:7px; cursor:pointer; transition:transform 0.15s, box-shadow 0.15s; }
+    .collab-card:active { transform:scale(0.98); }
+    .collab-card.en-attente { background:var(--rose-light); border:1.5px solid var(--rose-mid); }
+    .collab-card.incomplete { background:#fffbeb; border:1.5px solid #fcd34d; }
+    .collab-card-top { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .collab-client { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--text); }
+    .collab-status { font-size:10px; font-weight:700; border-radius:20px; padding:3px 9px; white-space:nowrap; text-transform:uppercase; letter-spacing:0.4px; }
+    .collab-card.en-attente .collab-status { background:var(--rose-mid); color:var(--rose-deep); }
+    .collab-card.incomplete .collab-status { background:#fef3c7; color:#92400e; }
+    .collab-desc { font-size:12px; color:var(--text-soft); line-height:1.4; }
+    .collab-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+    .collab-pill { font-size:11px; font-weight:600; border-radius:20px; padding:2px 9px; background:var(--white); color:var(--violet); border:1px solid var(--violet-mid); }
+    .collab-card.incomplete .collab-pill { border-color:#fcd34d; color:#92400e; }
+    .collab-prix { font-family:'Syne',sans-serif; font-size:14px; font-weight:800; color:var(--violet-deep); }
+    .collab-warning { font-size:11px; font-weight:600; color:#b45309; background:#fef3c7; border-radius:6px; padding:4px 8px; }
+    .collab-tap-hint { font-size:11px; color:var(--text-soft); font-style:italic; text-align:right; margin-top:2px; }
+    .empty-collabs { text-align:center; padding:32px 16px; font-size:13px; color:var(--text-soft); line-height:1.7; }
+    .empty-collabs .empty-icon { font-size:36px; margin-bottom:8px; }
+    .btn-refresh { background:none; border:1.5px solid var(--border); border-radius:10px; padding:7px 14px; font-size:12px; font-weight:600; color:var(--text-soft); cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-refresh:active { background:var(--rose-light); }
   </style>
 </head>
 <body>
@@ -497,9 +183,14 @@
     </div>
   </div>
 
-  <!-- ══ FORMULAIRE NOUVELLE COLLAB ══ -->
+  <!-- FORMULAIRE -->
   <div class="body" id="formView">
     <div id="formContent" style="display:flex;flex-direction:column;gap:14px;">
+
+      <div class="edit-banner" id="editBanner" style="display:none;">
+        ✏️ Tu modifies une collab existante
+        <button class="btn-annuler" onclick="annulerEdition()">Annuler</button>
+      </div>
 
       <div class="section-label">Infos générales</div>
 
@@ -507,12 +198,10 @@
         <div class="field-label">Date de la collab <span class="field-required">*</span></div>
         <input class="field-input" type="date" id="dateCollab">
       </div>
-
       <div class="field-wrap">
         <div class="field-label">Client / marque <span class="field-required">*</span></div>
         <input class="field-input" type="text" id="client" placeholder="ex: Sephora, SHEIN...">
       </div>
-
       <div class="field-wrap">
         <div class="field-label">Coordonnées du client</div>
         <input class="field-input" type="text" id="coordonnees" placeholder="email ou téléphone">
@@ -530,8 +219,6 @@
           <option value="autre">✏️ Autre</option>
         </select>
       </div>
-
-      <!-- Champs chanson -->
       <div id="fields-musique" class="desc-fields" style="display:none;">
         <div class="field-wrap">
           <div class="field-label">Titre de la chanson</div>
@@ -542,31 +229,23 @@
           <input class="field-input" type="text" id="artisteMusique" placeholder="ex: Miley Cyrus" oninput="updatePreview()">
         </div>
       </div>
-
-      <!-- Champs sponsorisé : rien de plus, client suffit -->
-
-      <!-- Champ libre -->
       <div id="fields-autre" class="desc-fields" style="display:none;">
         <div class="field-wrap">
           <div class="field-label">Description libre</div>
           <textarea class="field-textarea" id="descAutre" placeholder="Décris la collab..." style="height:70px;" oninput="updatePreview()"></textarea>
         </div>
       </div>
-
-      <!-- Aperçu -->
       <div id="previewWrap" style="display:none;">
         <div class="preview-pill empty" id="previewDesc">Aperçu automatique...</div>
       </div>
 
       <div class="divider"></div>
       <div class="section-label">Type de revenu</div>
-
       <div class="type-toggle">
         <button class="type-btn active" id="btn-remuneration" onclick="setType('remuneration')">💰 Rémunération</button>
         <button class="type-btn" id="btn-produit" onclick="setType('produit')">📦 Produit reçu</button>
         <button class="type-btn" id="btn-les-deux" onclick="setType('les-deux')">🎁 Les deux</button>
       </div>
-
       <div id="block-remuneration">
         <div class="montant-row">
           <span class="montant-prefix">Montant HT</span>
@@ -574,7 +253,6 @@
           <span class="montant-prefix">€</span>
         </div>
       </div>
-
       <div class="produit-block" id="block-produit" style="display:none;">
         <div class="produit-title">📦 Produit reçu</div>
         <div class="field-wrap">
@@ -592,19 +270,16 @@
 
       <div class="divider"></div>
       <div class="section-label">Contenu publié <span style="font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;">(si dispo)</span></div>
-
       <div class="field-wrap">
         <div class="field-label">Lien de la vidéo</div>
         <input class="field-input" type="url" id="lienVideo" placeholder="https://...">
       </div>
-
       <div class="field-wrap">
         <div class="field-label">Date de publication</div>
         <input class="field-input" type="date" id="publieLe">
       </div>
 
       <div class="divider"></div>
-
       <div class="mail-block">
         <div class="mail-title">📧 Copie du mail de collab</div>
         <div class="mail-sub">Colle ici le mail reçu de la marque — utile en cas de contrôle</div>
@@ -613,19 +288,18 @@
 
       <div id="errorMsg"></div>
       <div id="loadingMsg">⏳ Enregistrement en cours...</div>
-      <button class="btn-cta" onclick="submitCollab()">✨ Enregistrer la collab</button>
+      <button class="btn-cta" id="btnSubmit" onclick="submitCollab()">✨ Enregistrer la collab</button>
     </div>
 
-    <!-- SUCCESS -->
     <div id="successScreen">
       <div class="success-circle">✓</div>
-      <div class="success-title">Collab enregistrée !</div>
+      <div class="success-title" id="successTitle">Collab enregistrée !</div>
       <div class="success-sub" id="successSub"></div>
       <button class="btn-cta" style="margin-top:12px" onclick="resetForm()">+ Nouvelle collab</button>
     </div>
   </div>
 
-  <!-- ══ MES COLLABS ══ -->
+  <!-- MES COLLABS -->
   <div class="body" id="collabsView" style="display:none;">
     <div class="collabs-header">
       <div class="section-label">Mes collabs en attente</div>
@@ -639,6 +313,9 @@
 <script>
   const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUad-ZVTD37C7yT6oKq7977RJdcguWyHKuL7qg8pW5GIbDksTqSX8IrIktuK0zvKB1/exec";
   const TIKTOK = "@naia_la_star";
+
+  let modeEdition = false;
+  let collabEnCours = null;
 
   // ── Tabs
   function showTab(tab) {
@@ -662,29 +339,21 @@
     const client = document.getElementById('client').value.trim();
     const el = document.getElementById('previewDesc');
     let txt = '';
-
     if (val === 'musique') {
       const titre = document.getElementById('titreMusique').value.trim();
       const artiste = document.getElementById('artisteMusique').value.trim();
-      if (titre && artiste) {
-        txt = `Utilisation de la chanson "${titre}" de ${artiste} pour une vidéo TikTok publiée sur le compte ${TIKTOK}`;
-      }
+      if (titre && artiste) txt = `Utilisation de la chanson "${titre}" de ${artiste} pour une vidéo TikTok publiée sur le compte ${TIKTOK}`;
     } else if (val === 'sponsorise') {
-      if (client) {
-        txt = `Création et publication d'une vidéo TikTok sponsorisée pour la marque ${client} sur le compte ${TIKTOK}`;
-      }
+      if (client) txt = `Création et publication d'une vidéo TikTok sponsorisée pour la marque ${client} sur le compte ${TIKTOK}`;
     } else if (val === 'autre') {
       txt = document.getElementById('descAutre').value.trim();
     }
-
     el.textContent = txt || 'Aperçu automatique...';
     el.className = 'preview-pill' + (txt ? '' : ' empty');
     return txt;
   }
 
-  function getDescription() {
-    return updatePreview();
-  }
+  function getDescription() { return updatePreview(); }
 
   // ── Type de revenu
   let typeRevenu = 'remuneration';
@@ -693,6 +362,43 @@
     ['remuneration','produit','les-deux'].forEach(k => document.getElementById('btn-'+k).classList.toggle('active', k===t));
     document.getElementById('block-remuneration').style.display = (t==='remuneration'||t==='les-deux') ? 'block' : 'none';
     document.getElementById('block-produit').style.display = (t==='produit'||t==='les-deux') ? 'flex' : 'none';
+  }
+
+  // ── Ouvrir une collab en édition
+  function ouvrirEdition(c) {
+    modeEdition = true;
+    collabEnCours = c;
+
+    document.getElementById('dateCollab').value = c.dateRaw || '';
+    document.getElementById('client').value = c.client || '';
+    document.getElementById('coordonnees').value = c.coordonnees || '';
+    document.getElementById('lienVideo').value = c.lienVideo || '';
+    document.getElementById('publieLe').value = c.publieLeRaw || '';
+    document.getElementById('mailCollab').value = c.mailCollab || '';
+
+    if (c.remuneration && c.produitRecu) setType('les-deux');
+    else if (c.produitRecu) setType('produit');
+    else setType('remuneration');
+    document.getElementById('remuneration').value = c.remuneration || '';
+    document.getElementById('produitRecu').value = c.produitRecu || '';
+    document.getElementById('valeurEstim').value = c.valeurEstim || '';
+
+    // Description en mode "autre" avec le texte existant
+    document.getElementById('typeContenu').value = 'autre';
+    document.getElementById('descAutre').value = c.description || '';
+    onTypeContenuChange();
+
+    document.getElementById('editBanner').style.display = 'flex';
+    document.getElementById('btnSubmit').textContent = '💾 Mettre à jour la collab';
+    document.getElementById('formContent').style.display = 'flex';
+    document.getElementById('successScreen').style.display = 'none';
+    showTab('form');
+    window.scrollTo(0, 0);
+  }
+
+  function annulerEdition() {
+    resetForm();
+    showTab('collabs');
   }
 
   // ── Error
@@ -726,22 +432,22 @@
     }
 
     document.getElementById('loadingMsg').style.display = 'block';
-    document.querySelector('.btn-cta').disabled = true;
+    document.getElementById('btnSubmit').disabled = true;
 
     const payload = {
-      action: 'saveCollab',
-      dateCollab,
-      typeRevenu,
+      action: modeEdition ? 'updateCollab' : 'saveCollab',
+      rowIndex: modeEdition ? collabEnCours.rowIndex : undefined,
+      sheetName: modeEdition ? collabEnCours.sheetName : undefined,
+      dateCollab, typeRevenu,
       plateforme: 'TikTok',
-      client,
-      description,
+      client, description,
       remuneration: (typeRevenu === 'remuneration' || typeRevenu === 'les-deux') ? parseFloat(remuneration) || 0 : '',
-      produitRecu: (typeRevenu === 'produit' || typeRevenu === 'les-deux') ? produitRecu : '',
-      valeurEstim: (typeRevenu === 'produit' || typeRevenu === 'les-deux') ? parseFloat(valeurEstim) || 0 : '',
-      lienVideo: document.getElementById('lienVideo').value.trim(),
-      publieLe: document.getElementById('publieLe').value,
-      coordonnees: document.getElementById('coordonnees').value.trim(),
-      mailCollab: document.getElementById('mailCollab').value.trim(),
+      produitRecu:  (typeRevenu === 'produit'       || typeRevenu === 'les-deux') ? produitRecu : '',
+      valeurEstim:  (typeRevenu === 'produit'       || typeRevenu === 'les-deux') ? parseFloat(valeurEstim) || 0 : '',
+      lienVideo:    document.getElementById('lienVideo').value.trim(),
+      publieLe:     document.getElementById('publieLe').value,
+      coordonnees:  document.getElementById('coordonnees').value.trim(),
+      mailCollab:   document.getElementById('mailCollab').value.trim(),
     };
 
     fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
@@ -752,8 +458,9 @@
           const manquants = [];
           if (!payload.lienVideo) manquants.push('lien vidéo');
           if (!payload.publieLe) manquants.push('date de publication');
+          document.getElementById('successTitle').textContent = modeEdition ? 'Collab mise à jour !' : 'Collab enregistrée !';
           document.getElementById('successSub').innerHTML =
-            'Collab avec <strong>' + client + '</strong> enregistrée ✓' +
+            'Collab avec <strong>' + client + '</strong> ' + (modeEdition ? 'mise à jour' : 'enregistrée') + ' ✓' +
             (manquants.length
               ? '<br><br>⚠️ Pense à compléter plus tard :<br>' + manquants.join(', ') + '<br><small>Ta mère ne pourra pas facturer sans ces infos !</small>'
               : '<br><br>✅ Toutes les infos sont remplies —<br>ta mère peut facturer !');
@@ -761,41 +468,35 @@
           document.getElementById('successScreen').style.display = 'flex';
         } else {
           showError('Erreur : ' + (data.error || 'Contacte ta mère 😅'));
-          document.querySelector('.btn-cta').disabled = false;
+          document.getElementById('btnSubmit').disabled = false;
         }
       })
       .catch(() => {
         document.getElementById('loadingMsg').style.display = 'none';
         showError('Impossible de contacter le serveur.');
-        document.querySelector('.btn-cta').disabled = false;
+        document.getElementById('btnSubmit').disabled = false;
       });
   }
 
   // ── Reset
   function resetForm() {
-    document.getElementById('client').value = '';
-    document.getElementById('coordonnees').value = '';
-    document.getElementById('remuneration').value = '';
-    document.getElementById('produitRecu').value = '';
-    document.getElementById('valeurEstim').value = '';
-    document.getElementById('lienVideo').value = '';
-    document.getElementById('publieLe').value = '';
-    document.getElementById('mailCollab').value = '';
-    document.getElementById('titreMusique').value = '';
-    document.getElementById('artisteMusique').value = '';
-    document.getElementById('descAutre').value = '';
+    modeEdition = false;
+    collabEnCours = null;
+    ['client','coordonnees','remuneration','produitRecu','valeurEstim','lienVideo','publieLe','mailCollab','titreMusique','artisteMusique','descAutre'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('typeContenu').value = '';
     document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
     document.getElementById('fields-musique').style.display = 'none';
     document.getElementById('fields-autre').style.display = 'none';
     document.getElementById('previewWrap').style.display = 'none';
+    document.getElementById('editBanner').style.display = 'none';
+    document.getElementById('btnSubmit').textContent = '✨ Enregistrer la collab';
     setType('remuneration');
     document.getElementById('formContent').style.display = 'flex';
     document.getElementById('successScreen').style.display = 'none';
-    document.querySelector('.btn-cta').disabled = false;
+    document.getElementById('btnSubmit').disabled = false;
   }
 
-  // ── Mes collabs (non facturées uniquement)
+  // ── Mes collabs
   function chargerCollabs() {
     document.getElementById('loadingCollabs').style.display = 'block';
     document.getElementById('collabsList').innerHTML = '';
@@ -804,13 +505,9 @@
       .then(data => {
         document.getElementById('loadingCollabs').style.display = 'none';
         if (data.success && data.collabs && data.collabs.length > 0) {
-          // Filtre côté client : on n'affiche que les non facturées
           const nonFacturees = data.collabs.filter(c => !c.numeroFacture || c.numeroFacture === '');
-          if (nonFacturees.length > 0) {
-            afficherCollabs(nonFacturees);
-          } else {
-            document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🎉</div>Toutes tes collabs sont facturées !<br>Tu peux en enregistrer une nouvelle.</div>';
-          }
+          if (nonFacturees.length > 0) afficherCollabs(nonFacturees);
+          else document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🎉</div>Toutes tes collabs sont facturées !<br>Tu peux en enregistrer une nouvelle.</div>';
         } else if (data.success) {
           document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🌸</div>Aucune collab pour l\'instant.<br>Commence à enregistrer tes collabs !</div>';
         } else {
@@ -833,10 +530,9 @@
       const incomplete = manquants.length > 0;
       const statut = incomplete ? 'incomplete' : 'en-attente';
       const statusLabel = incomplete ? '⚠️ Infos manquantes' : '⏳ En attente de facturation';
-
       const montant = c.remuneration
-        ? parseFloat(c.remuneration).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €'
-        : c.valeurEstim ? parseFloat(c.valeurEstim).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' € (produit)' : '—';
+        ? parseFloat(c.remuneration).toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' €'
+        : c.valeurEstim ? parseFloat(c.valeurEstim).toLocaleString('fr-FR',{minimumFractionDigits:2}) + ' € (produit)' : '—';
 
       const div = document.createElement('div');
       div.className = 'collab-card ' + statut;
@@ -850,16 +546,16 @@
           ${c.date ? `<span class="collab-pill">📅 ${c.date}</span>` : ''}
           <span class="collab-prix">${montant}</span>
         </div>
-        ${incomplete ? `<div class="collab-warning">⚠️ Manquant : ${manquants.join(', ')} — ta mère ne peut pas encore facturer</div>` : ''}
+        ${incomplete ? `<div class="collab-warning">⚠️ Manquant : ${manquants.join(', ')}</div>` : ''}
+        <div class="collab-tap-hint">Appuie pour modifier ✏️</div>
       `;
+      div.onclick = () => ouvrirEdition(c);
       container.appendChild(div);
     });
   }
 
   // Init
   document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
-
-  // Mise à jour preview quand le client change (pour le template sponsorisé)
   document.getElementById('client').addEventListener('input', updatePreview);
 </script>
 </body>
