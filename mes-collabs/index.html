@@ -449,7 +449,7 @@
       coordonnees:  document.getElementById('coordonnees').value.trim(),
       mailCollab:   document.getElementById('mailCollab').value.trim(),
     };
-
+console.log('payload envoyé:', JSON.stringify(payload));
     fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
       .then(r => r.json())
       .then(data => {
