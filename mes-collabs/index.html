@@ -1,1 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mes Collabs">
+  <link rel="apple-touch-icon" href="../favicon.png">
+  <link rel="icon" href="../favicon.png">
+  <title>Mes Collabs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose:        #f472b6;
+      --rose-deep:   #db2777;
+      --rose-light:  #fce7f3;
+      --rose-mid:    #fbcfe8;
+      --violet:      #a855f7;
+      --violet-deep: #7c3aed;
+      --violet-light:#f3e8ff;
+      --violet-mid:  #e9d5ff;
+      --peach:       #fb923c;
+      --bg:          #fff5fb;
+      --white:       #ffffff;
+      --text:        #1a0a12;
+      --text-soft:   #7c5572;
+      --border:      #f0c0df;
+      --success:     #10b981;
+      --warning:     #f59e0b;
+      --danger:      #ef4444;
+      --radius-card: 20px;
+      --radius-input:12px;
+      --shadow:      0 8px 32px rgba(244,114,182,0.18);
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 0 60px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #db2777 0%, #a855f7 60%, #7c3aed 100%);
+      padding: 52px 22px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      right: -30px; top: -30px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      left: -20px; bottom: -40px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 4px;
+    }
+    .logo {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.22);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .app-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+    .app-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      margin-left: 49px;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 4px;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .tab {
+      flex: 1;
+      padding: 9px 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      border-radius: 11px;
+      transition: all 0.22s;
+      font-family: 'DM Sans', sans-serif;
+      border: none;
+      background: none;
+    }
+    .tab.active {
+      background: #fff;
+      color: var(--rose-deep);
+    }
+
+    /* ── BODY ── */
+    .body {
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      color: var(--rose-deep);
+      text-transform: uppercase;
+    }
+
+    /* ── FIELD ── */
+    .field-wrap { display: flex; flex-direction: column; gap: 5px; }
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+    .field-required { color: var(--rose-deep); margin-left: 2px; }
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      padding: 11px 14px;
+      font-size: 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      background: var(--white);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      -webkit-appearance: none;
+    }
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
+    }
+    .field-textarea { resize: none; height: 80px; line-height: 1.5; }
+    .field-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23a855f7' d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
+
+    /* ── TYPE REVENU TOGGLE ── */
+    .type-toggle {
+      display: flex;
+      gap: 8px;
+    }
+    .type-btn {
+      flex: 1;
+      padding: 9px 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.18s;
+    }
+    .type-btn.active {
+      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
+      border-color: var(--violet);
+      color: var(--violet-deep);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--rose-mid), var(--violet-mid), var(--rose-mid));
+    }
+
+    /* ── MONTANT ROW ── */
+    .montant-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .montant-prefix {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+    .montant-input {
+      flex: 1;
+      padding: 11px 14px;
+      font-size: 16px;
+      font-weight: 700;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      background: var(--white);
+      color: var(--violet-deep);
+      font-family: 'DM Sans', sans-serif;
+      text-align: right;
+    }
+    .montant-input:focus {
+      outline: none;
+      border-color: var(--violet);
+      box-shadow: 0 0 0 3px rgba(168,85,247,0.12);
+    }
+
+    /* ── PRODUIT BLOCK ── */
+    .produit-block {
+      background: linear-gradient(135deg, var(--rose-light), var(--violet-light));
+      border: 1.5px solid var(--violet-mid);
+      border-radius: var(--radius-card);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .produit-block .produit-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--violet-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* ── ERROR / LOADING ── */
+    #errorMsg {
+      display: none;
+      background: #fff0f3;
+      border: 1px solid #fecdd3;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--danger);
+      text-align: center;
+    }
+    #loadingMsg {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      font-size: 13px;
+      color: var(--violet);
+      font-weight: 600;
+    }
+
+    /* ── CTA ── */
+    .btn-cta {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--rose-deep), var(--violet) 60%, var(--violet-deep));
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(168,85,247,0.35);
+      transition: opacity 0.18s, transform 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .btn-cta:active { opacity: 0.88; transform: scale(0.99); }
+    .btn-cta:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* ── SUCCESS ── */
+    #successScreen {
+      display: none;
+      padding: 40px 24px;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center;
+      background: linear-gradient(160deg, var(--rose-light) 0%, var(--violet-light) 100%);
+      min-height: 400px;
+      justify-content: center;
+    }
+    .success-circle {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--rose-deep), var(--violet));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; color: white;
+    }
+    .success-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--rose-deep);
+    }
+    .success-sub {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    /* ── MES COLLABS ── */
+    #collabsView { display: none; }
+    .collabs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .collabs-count {
+      font-size: 12px;
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+    #loadingCollabs {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: var(--violet);
+      font-weight: 600;
+    }
+    .collab-card {
+      border-radius: var(--radius-card);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .collab-card.facturee {
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+    }
+    .collab-card.en-attente {
+      background: var(--rose-light);
+      border: 1.5px solid var(--rose-mid);
+    }
+    .collab-card.incomplete {
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+    }
+    .collab-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .collab-client {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .collab-status {
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 3px 9px;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .collab-card.facturee .collab-status { background: #d1fae5; color: #065f46; }
+    .collab-card.en-attente .collab-status { background: var(--rose-mid); color: var(--rose-deep); }
+    .collab-card.incomplete .collab-status { background: #fef3c7; color: #92400e; }
+    .collab-desc {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+    .collab-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .collab-pill {
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 2px 9px;
+      background: var(--white);
+      color: var(--violet);
+      border: 1px solid var(--violet-mid);
+    }
+    .collab-card.incomplete .collab-pill { border-color: #fcd34d; color: #92400e; }
+    .collab-prix {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--violet-deep);
+    }
+    .collab-warning {
+      font-size: 11px;
+      font-weight: 600;
+      color: #b45309;
+      background: #fef3c7;
+      border-radius: 6px;
+      padding: 4px 8px;
+    }
+    .collab-invoice {
+      font-size: 11px;
+      font-weight: 600;
+      color: #065f46;
+      background: #d1fae5;
+      border-radius: 6px;
+      padding: 4px 8px;
+      display: inline-block;
+    }
+    .empty-collabs {
+      text-align: center;
+      padding: 32px 16px;
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+    .empty-collabs .empty-icon { font-size: 36px; margin-bottom: 8px; }
+    .btn-refresh {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-refresh:active { background: var(--rose-light); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">✨</div>
+      <div class="app-title">Mes Collabs</div>
+    </div>
+    <div class="app-sub">Gère tes collabs facilement</div>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('form')">➕ Nouvelle collab</button>
+      <button class="tab" onclick="showTab('collabs')">📋 Mes collabs</button>
+    </div>
+  </div>
+
+  <!-- ══ FORMULAIRE NOUVELLE COLLAB ══ -->
+  <div class="body" id="formView">
+    <div id="formContent">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="section-label">Infos générales</div>
+
+        <div class="field-wrap">
+          <div class="field-label">Date de la collab <span class="field-required">*</span></div>
+          <input class="field-input" type="date" id="dateCollab">
+        </div>
+
+        <div class="field-wrap">
+          <div class="field-label">Client / marque <span class="field-required">*</span></div>
+          <input class="field-input" type="text" id="client" placeholder="ex: Sephora, SHEIN...">
+        </div>
+
+        <div class="field-wrap">
+          <div class="field-label">Coordonnées du client</div>
+          <input class="field-input" type="text" id="coordonnees" placeholder="email ou téléphone">
+        </div>
+
+        <div class="field-wrap">
+          <div class="field-label">Plateforme</div>
+          <select class="field-select" id="plateforme">
+            <option value="TikTok">TikTok</option>
+            <option value="Instagram">Instagram</option>
+            <option value="YouTube">YouTube</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div class="field-wrap">
+          <div class="field-label">Description du contenu <span class="field-required">*</span></div>
+          <textarea class="field-textarea" id="description" placeholder="Décris la collab en quelques mots..."></textarea>
+        </div>
+
+        <div class="divider"></div>
+        <div class="section-label">Type de revenu</div>
+
+        <div class="type-toggle">
+          <button class="type-btn active" id="btn-remuneration" onclick="setType('remuneration')">💰 Rémunération</button>
+          <button class="type-btn" id="btn-produit" onclick="setType('produit')">📦 Produit reçu</button>
+          <button class="type-btn" id="btn-les-deux" onclick="setType('les-deux')">🎁 Les deux</button>
+        </div>
+
+        <!-- Rémunération -->
+        <div id="block-remuneration">
+          <div class="montant-row">
+            <span class="montant-prefix">Montant HT</span>
+            <input class="montant-input" type="number" id="remuneration" min="0" step="0.01" placeholder="0,00">
+            <span class="montant-prefix">€</span>
+          </div>
+        </div>
+
+        <!-- Produit reçu -->
+        <div class="produit-block" id="block-produit" style="display:none;">
+          <div class="produit-title">📦 Produit reçu</div>
+          <div class="field-wrap">
+            <div class="field-label">Nom du produit</div>
+            <input class="field-input" type="text" id="produitRecu" placeholder="ex: Palette de maquillage">
+          </div>
+          <div class="field-wrap">
+            <div class="field-label">Valeur estimée</div>
+            <div class="montant-row">
+              <input class="montant-input" type="number" id="valeurEstim" min="0" step="0.01" placeholder="0,00" style="flex:1;">
+              <span class="montant-prefix">€</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="section-label">Contenu publié <span style="font-size:10px;color:#94a3b8;text-transform:none;letter-spacing:0;">(à remplir si dispo)</span></div>
+
+        <div class="field-wrap">
+          <div class="field-label">Lien de la vidéo</div>
+          <input class="field-input" type="url" id="lienVideo" placeholder="https://...">
+        </div>
+
+        <div class="field-wrap">
+          <div class="field-label">Date de publication</div>
+          <input class="field-input" type="date" id="publieLe">
+        </div>
+
+        <div id="errorMsg"></div>
+        <div id="loadingMsg">⏳ Enregistrement en cours...</div>
+        <button class="btn-cta" onclick="submitCollab()">✨ Enregistrer la collab</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="successScreen">
+      <div class="success-circle">✓</div>
+      <div class="success-title">Collab enregistrée !</div>
+      <div class="success-sub" id="successSub"></div>
+      <button class="btn-cta" style="margin-top:12px" onclick="resetForm()">+ Nouvelle collab</button>
+    </div>
+  </div>
+
+  <!-- ══ MES COLLABS ══ -->
+  <div class="body" id="collabsView" style="display:none;">
+    <div class="collabs-header">
+      <div class="section-label">Mes collabs</div>
+      <button class="btn-refresh" onclick="chargerCollabs()">🔄 Actualiser</button>
+    </div>
+    <div id="loadingCollabs">⏳ Chargement...</div>
+    <div id="collabsList"></div>
+  </div>
+</div>
+
+<script>
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyUad-ZVTD37C7yT6oKq7977RJdcguWyHKuL7qg8pW5GIbDksTqSX8IrIktuK0zvKB1/exec";
+
+  // ── Tabs
+  function showTab(tab) {
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='form')||(i===1&&tab==='collabs')));
+    document.getElementById('formView').style.display = tab === 'form' ? 'flex' : 'none';
+    document.getElementById('collabsView').style.display = tab === 'collabs' ? 'flex' : 'none';
+    if (tab === 'collabs') chargerCollabs();
+  }
+
+  // ── Type de revenu
+  let typeRevenu = 'remuneration';
+  function setType(t) {
+    typeRevenu = t;
+    ['remuneration','produit','les-deux'].forEach(k => document.getElementById('btn-'+k).classList.toggle('active', k===t));
+    document.getElementById('block-remuneration').style.display = (t==='remuneration'||t==='les-deux') ? 'block' : 'none';
+    document.getElementById('block-produit').style.display = (t==='produit'||t==='les-deux') ? 'flex' : 'none';
+  }
+
+  // ── Error
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg; el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 4000);
+  }
+
+  // ── Submit
+  function submitCollab() {
+    const client = document.getElementById('client').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const dateCollab = document.getElementById('dateCollab').value;
+
+    if (!client) { showError('Le nom du client est obligatoire.'); return; }
+    if (!description) { showError('La description est obligatoire.'); return; }
+    if (!dateCollab) { showError('La date de la collab est obligatoire.'); return; }
+
+    const remuneration = document.getElementById('remuneration').value;
+    const produitRecu = document.getElementById('produitRecu').value.trim();
+    const valeurEstim = document.getElementById('valeurEstim').value;
+
+    if ((typeRevenu === 'remuneration' || typeRevenu === 'les-deux') && !remuneration) {
+      showError('Saisis le montant de la rémunération.'); return;
+    }
+    if ((typeRevenu === 'produit' || typeRevenu === 'les-deux') && !produitRecu) {
+      showError('Saisis le nom du produit reçu.'); return;
+    }
+
+    document.getElementById('loadingMsg').style.display = 'block';
+    document.querySelector('.btn-cta').disabled = true;
+
+    const payload = {
+      action: 'saveCollab',
+      dateCollab,
+      typeRevenu,
+      plateforme: document.getElementById('plateforme').value,
+      client,
+      description,
+      remuneration: (typeRevenu === 'remuneration' || typeRevenu === 'les-deux') ? parseFloat(remuneration) || 0 : '',
+      produitRecu: (typeRevenu === 'produit' || typeRevenu === 'les-deux') ? produitRecu : '',
+      valeurEstim: (typeRevenu === 'produit' || typeRevenu === 'les-deux') ? parseFloat(valeurEstim) || 0 : '',
+      lienVideo: document.getElementById('lienVideo').value.trim(),
+      publieLe: document.getElementById('publieLe').value,
+      coordonnees: document.getElementById('coordonnees').value.trim(),
+    };
+
+    fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('loadingMsg').style.display = 'none';
+        if (data.success) {
+          const manquants = [];
+          if (!payload.lienVideo) manquants.push('lien vidéo');
+          if (!payload.publieLe) manquants.push('date de publication');
+          document.getElementById('successSub').innerHTML =
+            'Collab avec <strong>' + client + '</strong> enregistrée ✓' +
+            (manquants.length ? '<br><br>⚠️ Pense à compléter : ' + manquants.join(', ') + '<br>Ta mère ne pourra pas facturer sans ces infos !' : '<br><br>Toutes les infos sont remplies — ta mère peut facturer ✓');
+          document.getElementById('formContent').style.display = 'none';
+          document.getElementById('successScreen').style.display = 'flex';
+        } else {
+          showError('Erreur : ' + (data.error || 'Contacte ta mère 😅'));
+          document.querySelector('.btn-cta').disabled = false;
+        }
+      })
+      .catch(() => {
+        document.getElementById('loadingMsg').style.display = 'none';
+        showError('Impossible de contacter le serveur.');
+        document.querySelector('.btn-cta').disabled = false;
+      });
+  }
+
+  // ── Reset
+  function resetForm() {
+    document.getElementById('client').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('coordonnees').value = '';
+    document.getElementById('remuneration').value = '';
+    document.getElementById('produitRecu').value = '';
+    document.getElementById('valeurEstim').value = '';
+    document.getElementById('lienVideo').value = '';
+    document.getElementById('publieLe').value = '';
+    document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
+    setType('remuneration');
+    document.getElementById('formContent').style.display = 'block';
+    document.getElementById('successScreen').style.display = 'none';
+    document.querySelector('.btn-cta').disabled = false;
+  }
+
+  // ── Mes collabs
+  function chargerCollabs() {
+    document.getElementById('loadingCollabs').style.display = 'block';
+    document.getElementById('collabsList').innerHTML = '';
+    fetch(WEBAPP_URL, { method: 'POST', body: JSON.stringify({ action: 'getCollabsFille' }) })
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('loadingCollabs').style.display = 'none';
+        if (data.success && data.collabs && data.collabs.length > 0) {
+          afficherCollabs(data.collabs);
+        } else if (data.success) {
+          document.getElementById('collabsList').innerHTML = '<div class="empty-collabs"><div class="empty-icon">🌸</div>Aucune collab pour l\'instant.<br>Commence à enregistrer tes collabs !</div>';
+        } else {
+          document.getElementById('collabsList').innerHTML = '<div class="empty-collabs">❌ ' + (data.error || 'Erreur de chargement') + '</div>';
+        }
+      })
+      .catch(() => {
+        document.getElementById('loadingCollabs').style.display = 'none';
+        document.getElementById('collabsList').innerHTML = '<div class="empty-collabs">❌ Impossible de contacter le serveur</div>';
+      });
+  }
+
+  function afficherCollabs(collabs) {
+    const container = document.getElementById('collabsList');
+    container.innerHTML = '';
+    collabs.forEach(c => {
+      const facturee = c.numeroFacture && c.numeroFacture !== '';
+      const manquants = [];
+      if (!c.lienVideo) manquants.push('lien vidéo');
+      if (!c.publieLe) manquants.push('date de publication');
+      const incomplete = !facturee && manquants.length > 0;
+      const statut = facturee ? 'facturee' : incomplete ? 'incomplete' : 'en-attente';
+
+      const montant = c.remuneration
+        ? parseFloat(c.remuneration).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €'
+        : c.valeurEstim ? parseFloat(c.valeurEstim).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' € (produit)' : '—';
+
+      const statusLabel = facturee ? '✓ Facturée' : incomplete ? '⚠️ Infos manquantes' : '⏳ En attente';
+
+      const div = document.createElement('div');
+      div.className = 'collab-card ' + statut;
+      div.innerHTML = `
+        <div class="collab-card-top">
+          <div class="collab-client">${c.client}</div>
+          <span class="collab-status">${statusLabel}</span>
+        </div>
+        <div class="collab-desc">${c.description || '—'}</div>
+        <div class="collab-meta">
+          ${c.date ? `<span class="collab-pill">📅 ${c.date}</span>` : ''}
+          ${c.plateforme ? `<span class="collab-pill">${c.plateforme}</span>` : ''}
+          <span class="collab-prix">${montant}</span>
+        </div>
+        ${incomplete ? `<div class="collab-warning">⚠️ Manquant : ${manquants.join(', ')} — ta mère ne peut pas encore facturer</div>` : ''}
+        ${facturee ? `<div class="collab-invoice">Facture ${c.numeroFacture}</div>` : ''}
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // Init
+  document.getElementById('dateCollab').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
