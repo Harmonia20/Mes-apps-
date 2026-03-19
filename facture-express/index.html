@@ -377,7 +377,7 @@
 
   function importerCollab(c) {
     collabImportee = c;
-    document.getElementById('dateFacture').value = c.dateRaw || new Date().toISOString().split('T')[0];
+    document.getElementById('dateFacture').value = new Date().toISOString().split('T')[0];
     document.getElementById('client').value = c.client || '';
     document.getElementById('adresse').value = c.adresseClient || 'NC';
     document.getElementById('contact').value = c.contactClient || '';
